@@ -109,7 +109,7 @@ TPscene.prototype.display = function () {
 	this.translate(4, 0.05, 3);
 	this.floor.display();
 
-	this.translate(0, 1.9 - 0.1, 0);
+	this.translate(0, 0.05, 0);
 	this.table.display();
 
 	
