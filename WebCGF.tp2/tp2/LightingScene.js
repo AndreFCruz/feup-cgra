@@ -45,7 +45,7 @@ LightingScene.prototype.init = function(application) {
     this.materialA.setAmbient(0.3, 0.3, 0.3, 1);
     this.materialA.setDiffuse(0.6, 0.6, 0.6, 1);
     //this.materialA.setSpecular(0.2, 0.2, 0.2, 1);
-    this.materialA.setSpecular(0, 0, 0.8, 1);
+    this.materialA.setSpecular(0, 0.2, 0.8, 1);
     //this.materialA.setShininess(10);
     this.materialA.setShininess(120);
 
@@ -54,6 +54,14 @@ LightingScene.prototype.init = function(application) {
     this.materialB.setDiffuse(0.6, 0.6, 0.6, 1);
     this.materialB.setSpecular(0.8, 0.8, 0.8, 1);
     this.materialB.setShininess(120);
+
+    this.materialWood = new CGFappearance(this);
+/*  this.materialWood.setAmbient(0.3, 0.3, 0.1, 1);
+    this.materialWood.setDiffuse(0.2, 0.2, 0.1, 1);
+    this.materialWood.setSpecular(0.3, 0.3, 0.05, 1);
+    this.materialWood.setShininess(10); */
+    this.materialWood.loadTexture("../resources/table.png");
+    this.materialWood.setTextureWrap('REPEAT', 'REPEAT');
 
 }
 ;
@@ -64,8 +72,8 @@ LightingScene.prototype.initCameras = function() {
 ;
 
 LightingScene.prototype.initLights = function() {
-    //this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
-    this.setGlobalAmbientLight(0, 0, 0, 1.0);
+    this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
+    //this.setGlobalAmbientLight(0, 0, 0, 1.0);
     
     // Positions for four lights
     this.lights[0].setPosition(4, 6, 1, 1);
@@ -76,9 +84,11 @@ LightingScene.prototype.initLights = function() {
     this.lights[1].setVisible(true);
     // show marker on light position (different from enabled)
 
-    //this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+    this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+    this.lights[2].setVisible(true);
     //this.lights[1].setVisible(true); // show marker on light position (different from enabled)
-    //this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+    this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+    this.lights[3].setVisible(true);
     //this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
     this.lights[0].setAmbient(0, 0, 0, 1);
@@ -89,6 +99,19 @@ LightingScene.prototype.initLights = function() {
     this.lights[1].setAmbient(0, 0, 0, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[1].enable();
+
+    this.lights[2].setSpecular(1, 1, 1, 1);
+    this.lights[2].setConstantAttenuation(0);
+    this.lights[2].setLinearAttenuation(1);
+    this.lights[2].setQuadraticAttenuation(0);
+    this.lights[2].enable();
+
+    this.lights[3].setSpecular(1, 1, 1, 1);
+    this.lights[3].setConstantAttenuation(0);
+    this.lights[3].setLinearAttenuation(0);
+    this.lights[3].setQuadraticAttenuation(0.2);
+    this.lights[3].enable();
+
 }
 ;
 
@@ -153,14 +176,20 @@ LightingScene.prototype.display = function() {
     // First Table
     this.pushMatrix();
     this.translate(5, 0, 8);
+
+    this.materialWood.apply();
     this.table.display();
     this.popMatrix();
+
 
     // Second Table
     this.pushMatrix();
     this.translate(12, 0, 8);
+    
+    this.materialDefault.apply();
     this.table.display();
     this.popMatrix();
+
 
     // Board A
     this.pushMatrix();
