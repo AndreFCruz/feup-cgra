@@ -55,14 +55,23 @@ LightingScene.prototype.init = function(application) {
     this.materialB.setSpecular(0.8, 0.8, 0.8, 1);
     this.materialB.setShininess(120);
 
-    this.materialWood = new CGFappearance(this);
-/*  this.materialWood.setAmbient(0.3, 0.3, 0.1, 1);
-    this.materialWood.setDiffuse(0.2, 0.2, 0.1, 1);
-    this.materialWood.setSpecular(0.3, 0.3, 0.05, 1);
-    this.materialWood.setShininess(10); */
-    this.materialWood.loadTexture("../resources/table.png");
-    this.materialWood.setTextureWrap('REPEAT', 'REPEAT');
+    this.materialTable = new CGFappearance(this);
+    this.materialTable.setAmbient(0.5, 0.4, 0.2, 1);
+    this.materialTable.setDiffuse(0.4, 0.3, 0.1, 1);
+    this.materialTable.setSpecular(0.3, 0.2, 0.05, 1);
+    this.materialTable.setShininess(10);
 
+    this.materialFloor = new CGFappearance(this);
+    this.materialFloor.setAmbient(0.3, 0.4, 0.4, 1);
+    this.materialFloor.setDiffuse(0.4, 0.4, 0.4, 1);
+    this.materialFloor.setSpecular(0.5, 0.3, 0.4, 1);
+    this.materialFloor.setShininess(40);
+
+    this.materialWall = new CGFappearance(this);
+    this.materialWall.setAmbient(0.3, 0.3, 0.2, 1);
+    this.materialWall.setDiffuse(0.2, 0.4, 0.2, 1);
+    this.materialWall.setSpecular(0.5, 0.5, 0.5, 1);
+    this.materialWall.setShininess(20);
 }
 ;
 
@@ -155,6 +164,7 @@ LightingScene.prototype.display = function() {
     this.translate(7.5, 0, 7.5);
     this.rotate(-90 * degToRad, 1, 0, 0);
     this.scale(15, 15, 0.2);
+    this.materialFloor.apply();
     this.floor.display();
     this.popMatrix();
 
@@ -163,6 +173,7 @@ LightingScene.prototype.display = function() {
     this.translate(0, 4, 7.5);
     this.rotate(90 * degToRad, 0, 1, 0);
     this.scale(15, 8, 0.2);
+    this.materialWall.apply();
     this.wall.display();
     this.popMatrix();
 
@@ -176,8 +187,7 @@ LightingScene.prototype.display = function() {
     // First Table
     this.pushMatrix();
     this.translate(5, 0, 8);
-
-    this.materialWood.apply();
+    this.materialTable.apply();
     this.table.display();
     this.popMatrix();
 
@@ -185,11 +195,10 @@ LightingScene.prototype.display = function() {
     // Second Table
     this.pushMatrix();
     this.translate(12, 0, 8);
-    
-    this.materialDefault.apply();
     this.table.display();
     this.popMatrix();
 
+    this.materialDefault.apply();
 
     // Board A
     this.pushMatrix();
