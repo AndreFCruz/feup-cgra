@@ -2,20 +2,19 @@
  * MyPrism
  * @constructor
  */
- function MyPrism(scene, slices, stacks) {
- 	CGFobject.call(this,scene);
-	
-	this.slices = slices;
-	this.stacks = stacks;
+function MyPrism(scene, slices, stacks) {
+    CGFobject.call(this, scene);
 
- 	this.initBuffers();
- };
+    this.slices = slices;
+    this.stacks = stacks;
 
- MyPrism.prototype = Object.create(CGFobject.prototype);
- MyPrism.prototype.constructor = MyPrism;
+    this.initBuffers();
+}
+;MyPrism.prototype = Object.create(CGFobject.prototype);
+MyPrism.prototype.constructor = MyPrism;
 
- MyPrism.prototype.initBuffers = function() {
- 	/*
+MyPrism.prototype.initBuffers = function() {
+    /*
  	* TODO:
  	* Replace the following lines in order to build a prism with a **single mesh**.
  	*
@@ -23,40 +22,58 @@
  	* build a prism with varying number of slices and stacks?
  	*/
 
+    this.vertices = [];
+    // center vertice
+    this.indices = [];
+    this.normals = [];
 
-	this.vertices = [];	// center vertice
-	this.indices = [];
-	this.normals = [];
-	
-	var radsConst = (Math.PI / 180) * (360 / this.slices);
-	var deltaZ = 1 / this.stacks;
+    var radsConst = (Math.PI / 180) * (360 / this.slices);
+    var deltaZ = 1 / this.stacks;
 
-	// Vertices
-	for (var i = 0; i <= this.stacks; i++) {
-		for (var j = 0; j < this.slices; j++) {
-			var new_vertex = [Math.cos(radsConst * j), Math.sin(radsConst * j), i * deltaZ];
+    // Vertices
+    for (var i = 0; i <= this.stacks; i++) {
+        for (var j = 0; j < this.slices; j++) {
+            var new_vertex = [Math.cos(radsConst * j), Math.sin(radsConst * j), i * deltaZ];
 
-			this.vertices = this.vertices.concat(new_vertex);
-			this.vertices = this.vertices.concat(new_vertex);
-		}
-	}
+            this.vertices = this.vertices.concat(new_vertex);
+            this.vertices = this.vertices.concat(new_vertex);
+        }
+    }
 
-	// Indices
-	for (var sl = 0; sl < this.slices; sl += 2) {
-		
-		for (var st = 0; st < this.stacks; st++) {
-			var next_idx = sl + this.slices * 2;
-			this.indices = this.indices.concat([2 * (sl + (this.slices)), 2 * (sl + (st * this.slices)), 2 * (sl + 1 + (this.slices))]);
-			this.indices = this.indices.concat([2 * (sl + 1), 2 * (sl + (st * this.slices) + 1 + (this.slices)), 2 * sl]);
-		}
-		
-	}
+    // Indices
+    for (var sl = 0; sl < this.slices; sl++) {
+        /*
+        for (var st = 0; st < this.stacks; st++) {
 
-	// Normals - TODO
-	for (var i = 0; i < this.vertices.length; i++) {
-		this.normals = this.normals.concat([0, 0, 1]);
-	}
+            this.indices = this.indices.concat([2 * (sl + (this.slices)), 2 * (sl + (st * this.slices)), 2 * (sl + 1 + (this.slices))]);
+            this.indices = this.indices.concat([2 * (sl + 1), 2 * (sl + (st * this.slices) + 1 + (this.slices)), 2 * sl]);
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
+        }
+*/
+        this.indices = this.indices.concat([2 * sl, 2 * (sl + 1), 2 * (sl + this.slices)]);
+        this.indices = this.indices.concat([(2 * (sl + 1)) % (this.vertices.length / 3), 2 * (sl + 1 + this.slices) % (this.vertices.length / 3), 2 * (sl + this.slices) % (this.vertices.length / 3)]);
+
+    }
+
+    //this.indices = [0, 2, 4, 4, 6, 8, 8, 10, 12/*, 2, 18, 0*/];
+
+    // Normals - TODO
+    for (var i = 0; i < this.vertices.length; i++) {
+        this.normals = this.normals.concat([0, 0, 1]);
+    }
+
+
+    this.vertices.push([0, 0, 0]);
+    //this.vertices.push([0, 0, 1]);
+    
+    var center_idx = (this.vertices.length / 3) - 1;
+    
+    // Top and Bottom
+    for (var i = 0; i + 1 < this.slices; i++) {
+        this.indices = this.indices.concat([center_idx, i * 2, (i + 1) * 2]);
+    }
+
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
+}
+;
