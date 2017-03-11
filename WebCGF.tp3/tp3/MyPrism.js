@@ -45,20 +45,16 @@ MyPrism.prototype.initBuffers = function() {
         
         for (var st = 0; st < this.stacks; st++) {
             this.indices = this.indices.concat([
-                2 * sl,
+                2 * sl + this.slices * 2 * st,
                 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
-                2 * (sl + this.slices)]);
+                2 * (sl + this.slices) + this.slices * 2 * st]);
 
             this.indices = this.indices.concat([
                 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
-                2 * (sl + 1 + this.slices) >= this.vertices.length / 3 ? 2 * (sl + 1 + this.slices) - (this.slices * 2) : 2 * (sl + 1 + this.slices),
-                /*2 * (sl + 1 + this.slices) > (this.slices * 2) ? 2 * sl + 2 + this.slices: 2 * (sl + 1 + this.slices),*/
-                2 * (sl + this.slices) % (this.vertices.length / 3)]);
+                2 * (sl + 1 + this.slices) + this.slices * 2 * st >= this.vertices.length / 3 ? 2 * (sl + 1 + this.slices) + (this.slices * (2 * st - 2)) : 2 * (sl + 1 + this.slices) + this.slices * 2 * st,
+                (2 * (sl + this.slices) + this.slices * 2 * st)]);
         }
-/*
-        this.indices = this.indices.concat([2 * sl, 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st, 2 * (sl + this.slices)]);
-        this.indices = this.indices.concat([(2 * (sl + 1)) % (this.vertices.length / 3), 2 * (sl + 1 + this.slices) % (this.vertices.length / 3), 2 * (sl + this.slices) % (this.vertices.length / 3)]);
-*/
+
     }
 
 
