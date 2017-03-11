@@ -42,36 +42,42 @@ MyPrism.prototype.initBuffers = function() {
 
     // Indices
     for (var sl = 0; sl < this.slices; sl++) {
-        /*
+        
         for (var st = 0; st < this.stacks; st++) {
+            this.indices = this.indices.concat([
+                2 * sl,
+                2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
+                2 * (sl + this.slices)]);
 
-            this.indices = this.indices.concat([2 * (sl + (this.slices)), 2 * (sl + (st * this.slices)), 2 * (sl + 1 + (this.slices))]);
-            this.indices = this.indices.concat([2 * (sl + 1), 2 * (sl + (st * this.slices) + 1 + (this.slices)), 2 * sl]);
-
+            this.indices = this.indices.concat([
+                2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
+                2 * (sl + 1 + this.slices) >= this.vertices.length / 3 ? 2 * (sl + 1 + this.slices) - (this.slices * 2) : 2 * (sl + 1 + this.slices),
+                /*2 * (sl + 1 + this.slices) > (this.slices * 2) ? 2 * sl + 2 + this.slices: 2 * (sl + 1 + this.slices),*/
+                2 * (sl + this.slices) % (this.vertices.length / 3)]);
         }
-*/
-        this.indices = this.indices.concat([2 * sl, 2 * (sl + 1), 2 * (sl + this.slices)]);
+/*
+        this.indices = this.indices.concat([2 * sl, 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st, 2 * (sl + this.slices)]);
         this.indices = this.indices.concat([(2 * (sl + 1)) % (this.vertices.length / 3), 2 * (sl + 1 + this.slices) % (this.vertices.length / 3), 2 * (sl + this.slices) % (this.vertices.length / 3)]);
-
+*/
     }
 
-    //this.indices = [0, 2, 4, 4, 6, 8, 8, 10, 12/*, 2, 18, 0*/];
 
     // Normals - TODO
     for (var i = 0; i < this.vertices.length; i++) {
         this.normals = this.normals.concat([0, 0, 1]);
     }
 
-
+    /*
     this.vertices.push([0, 0, 0]);
     //this.vertices.push([0, 0, 1]);
-    
+
     var center_idx = (this.vertices.length / 3) - 1;
     
     // Top and Bottom
     for (var i = 0; i + 1 < this.slices; i++) {
         this.indices = this.indices.concat([center_idx, i * 2, (i + 1) * 2]);
     }
+    */
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
