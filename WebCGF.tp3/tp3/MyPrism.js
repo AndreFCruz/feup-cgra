@@ -63,17 +63,24 @@ MyPrism.prototype.initBuffers = function() {
         this.normals = this.normals.concat([0, 0, 1]);
     }
 
-    /*
-    this.vertices.push([0, 0, 0]);
-    //this.vertices.push([0, 0, 1]);
-
-    var center_idx = (this.vertices.length / 3) - 1;
     
-    // Top and Bottom
-    for (var i = 0; i + 1 < this.slices; i++) {
-        this.indices = this.indices.concat([center_idx, i * 2, (i + 1) * 2]);
+    /* Bottom */
+    var center_bot = (this.vertices.length / 3);
+    this.vertices = this.vertices.concat([0, 0, 0]);
+    
+    for (var i = 0; i < this.slices; i++) {
+        this.indices = this.indices.concat([i * 2, center_bot, (i + 1) * 2 % (this.slices * 2)]);
     }
-    */
+
+    /* Top */
+    var center_top = (this.vertices.length / 3);
+    this.vertices = this.vertices.concat([0, 0, 1]);
+    
+    for (var i = this.stacks * this.slices * 2; i < (this.slices * 2) + this.stacks * this.slices * 2; i += 2) {
+        this.indices = this.indices.concat([center_top, i, (i + 2) >= this.slices * 2 * (this.stacks + 1) ? i + 2 - this.slices * 2 : i + 2]);
+    }
+
+    
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
