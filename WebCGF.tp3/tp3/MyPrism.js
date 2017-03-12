@@ -45,28 +45,41 @@ MyPrism.prototype.initBuffers = function() {
         
         for (var st = 0; st < this.stacks; st++) {
             this.indices = this.indices.concat([
-                2 * sl + this.slices * 2 * st,
+                1 + 2 * sl + this.slices * 2 * st,
                 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
-                2 * (sl + this.slices) + this.slices * 2 * st]);
+                (1 + 2 * (sl + this.slices)) + this.slices * 2 * st]);
 
             this.indices = this.indices.concat([
                 2 * (sl + 1) % (this.slices * 2) + (this.slices * 2) * st,
                 2 * (sl + 1 + this.slices) + this.slices * 2 * st >= this.vertices.length / 3 ? 2 * (sl + 1 + this.slices) + (this.slices * (2 * st - 2)) : 2 * (sl + 1 + this.slices) + this.slices * 2 * st,
-                (2 * (sl + this.slices) + this.slices * 2 * st)]);
+                1 + 2 * (sl + this.slices) + this.slices * 2 * st]);
         }
 
     }
 
 
-    // Normals - TODO
-    for (var i = 0; i < this.vertices.length; i++) {
-        this.normals = this.normals.concat([0, 0, 1]);
+    // Normals
+    for (var i = 0; i <= this.stacks; i++) {
+        for (var j = 0; j < this.slices; j++) {
+
+          this.normals = this.normals.concat([
+              Math.cos(radsConst * j - radsConst / 2),
+              Math.sin(radsConst * j - radsConst / 2),
+              0]);
+
+          this.normals = this.normals.concat([
+              Math.cos(radsConst * j + radsConst / 2),
+              Math.sin(radsConst * j + radsConst / 2),
+              0]);
+              
+        }
     }
 
     
     /* Bottom */
     var center_bot = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 0]);
+    this.normals = this.normals.concat([0, 0, -1]);
     
     for (var i = 0; i < this.slices; i++) {
         this.indices = this.indices.concat([i * 2, center_bot, (i + 1) * 2 % (this.slices * 2)]);
@@ -75,6 +88,7 @@ MyPrism.prototype.initBuffers = function() {
     /* Top */
     var center_top = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 1]);
+    this.normals = this.normals.concat([0, 0, 1]);
     
     for (var i = this.stacks * this.slices * 2; i < (this.slices * 2) + this.stacks * this.slices * 2; i += 2) {
         this.indices = this.indices.concat([center_top, i, (i + 2) >= this.slices * 2 * (this.stacks + 1) ? i + 2 - this.slices * 2 : i + 2]);
