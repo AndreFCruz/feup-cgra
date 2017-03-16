@@ -38,7 +38,8 @@ LightingScene.prototype.init = function(application) {
     this.boardA = new Plane(this,BOARD_A_DIVISIONS);
     this.boardB = new Plane(this,BOARD_B_DIVISIONS);
 
-    this.prism = new MyPrism(this, 8, 20);
+    this.prism = new MyPrism(this, 8, 10);
+    this.cylinder = new MyCylinder(this, 8, 10);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -161,6 +162,7 @@ LightingScene.prototype.display = function() {
 
     // ---- BEGIN Primitive drawing section
 
+/*
     // Column - Prism
     this.pushMatrix();
     this.translate(14, 0, 14);
@@ -227,6 +229,10 @@ LightingScene.prototype.display = function() {
     this.materialB.apply();
     this.boardB.display();
     this.popMatrix();
+
+*/
+
+    this.cylinder.display();
 
     // ---- END Primitive drawing section
 }
