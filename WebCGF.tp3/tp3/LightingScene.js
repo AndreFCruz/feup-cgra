@@ -40,7 +40,7 @@ LightingScene.prototype.init = function(application) {
 
     this.prism = new MyPrism(this, 10, 20);
     this.cylinder = new MyCylinder(this, 10, 20);
-    this.lamp = new MyLamp(this, 10, 10);
+    this.lamp = new MyLamp(this, 20, 100);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -76,6 +76,12 @@ LightingScene.prototype.init = function(application) {
     this.materialWall.setDiffuse(0.2, 0.4, 0.2, 1);
     this.materialWall.setSpecular(0.5, 0.5, 0.5, 1);
     this.materialWall.setShininess(20);
+
+    this.materialLamp = new CGFappearance(this);
+    this.materialLamp.setAmbient(0.1, 0.1, 0.1);
+    this.materialLamp.setDiffuse(0.5, 0.5, 0.1, 1);
+    this.materialLamp.setSpecular(0.8, 0.8, 0.2, 1);
+    this.materialLamp.setShininess(100);
 }
 ;
 
@@ -163,9 +169,7 @@ LightingScene.prototype.display = function() {
 
     // ---- BEGIN Primitive drawing section
 
-    this.lamp.display();
-    //this.cylinder.display();
-/*
+
     // Column - Cylinder
     this.pushMatrix();
     this.translate(4, 0, 14);
@@ -180,6 +184,14 @@ LightingScene.prototype.display = function() {
     this.rotate(-90 * degToRad, 1, 0, 0);
     this.scale(1, 1, 7);
     this.prism.display();
+    this.popMatrix();
+
+    // Lamp
+    this.pushMatrix();
+    this.translate(7.5, 8, 7.5);
+    this.rotate(Math.PI / 2, 1, 0, 0);
+    this.materialLamp.apply();
+    this.lamp.display();
     this.popMatrix();
 
     // Floor
@@ -240,7 +252,7 @@ LightingScene.prototype.display = function() {
     this.materialB.apply();
     this.boardB.display();
     this.popMatrix();
-*/
+
 
     // ---- END Primitive drawing section
 }
