@@ -15,7 +15,6 @@ MyCylinder.prototype.constructor = MyCylinder;
 
 MyCylinder.prototype.initBuffers = function() {
     this.vertices = [];
-    // center vertice
     this.indices = [];
     this.normals = [];
 

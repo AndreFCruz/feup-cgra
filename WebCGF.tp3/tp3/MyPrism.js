@@ -15,7 +15,6 @@ MyPrism.prototype.constructor = MyPrism;
 
 MyPrism.prototype.initBuffers = function() {
     this.vertices = [];
-    // center vertice
     this.indices = [];
     this.normals = [];
 
