@@ -35,7 +35,7 @@ LightingScene.prototype.init = function(application) {
     // Scene elements
     this.table = new MyTable(this);
     this.wall = new Plane(this);
-    this.floor = new MyQuad(this);
+    this.floor = new MyQuad(this, 0, 10, 0, 12);
 
     this.boardA = new Plane(this,BOARD_A_DIVISIONS);
     this.boardB = new Plane(this,BOARD_B_DIVISIONS);
@@ -61,15 +61,16 @@ LightingScene.prototype.init = function(application) {
     this.materialB.setSpecular(0.8, 0.8, 0.8, 1);
     this.materialB.setShininess(120);
 
-    this.materialFloor = new CGFappearance(this);
-    this.materialFloor.setAmbient(0.3, 0.4, 0.4, 1);
-    this.materialFloor.setDiffuse(0.4, 0.4, 0.4, 1);
-    this.materialFloor.setSpecular(0.5, 0.3, 0.4, 1);
-    this.materialFloor.setShininess(40);
+    this.floorAppearance = new CGFappearance(this);
+    this.floorAppearance.setAmbient(0.3, 0.4, 0.4, 1);
+    this.floorAppearance.setDiffuse(0.4, 0.4, 0.4, 1);
+    this.floorAppearance.setSpecular(0.5, 0.3, 0.4, 1);
+    this.floorAppearance.setShininess(40);
+    this.floorAppearance.loadTexture("../resources/images/floor.png");
 
     this.materialWall = new CGFappearance(this);
-    this.materialWall.setAmbient(0.3, 0.3, 0.2, 1);
-    this.materialWall.setDiffuse(0.2, 0.4, 0.2, 1);
+    this.materialWall.setAmbient(0.9, 0.85, 0.7, 1);
+    this.materialWall.setDiffuse(0.9, 0.85, 0.7, 1);
     this.materialWall.setSpecular(0.5, 0.5, 0.5, 1);
     this.materialWall.setShininess(20);
 
@@ -195,7 +196,7 @@ LightingScene.prototype.display = function() {
     this.translate(7.5, 0, 7.5);
     this.rotate(-90 * degToRad, 1, 0, 0);
     this.scale(15, 15, 0.2);
-    this.materialFloor.apply();
+    this.floorAppearance.apply();
     this.floor.display();
     this.popMatrix();
 
