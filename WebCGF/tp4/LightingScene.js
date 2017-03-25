@@ -34,7 +34,8 @@ LightingScene.prototype.init = function(application) {
 
     // Scene elements
     this.table = new MyTable(this);
-    this.wall = new Plane(this);
+    this.wallRight = new Plane(this);
+    this.wallLeft = new MyQuad(this);
     this.floor = new MyQuad(this, 0, 10, 0, 12);
 
     this.boardA = new Plane(this,BOARD_A_DIVISIONS);
@@ -68,11 +69,13 @@ LightingScene.prototype.init = function(application) {
     this.floorAppearance.setShininess(40);
     this.floorAppearance.loadTexture("../resources/images/floor.png");
 
-    this.materialWall = new CGFappearance(this);
-    this.materialWall.setAmbient(0.9, 0.85, 0.7, 1);
-    this.materialWall.setDiffuse(0.9, 0.85, 0.7, 1);
-    this.materialWall.setSpecular(0.5, 0.5, 0.5, 1);
-    this.materialWall.setShininess(20);
+    this.windowAppearance = new CGFappearance(this);
+    this.windowAppearance.setAmbient(0.9, 0.85, 0.7, 1);
+    this.windowAppearance.setDiffuse(0.9, 0.85, 0.7, 1);
+    this.windowAppearance.setSpecular(0.5, 0.5, 0.5, 1);
+    this.windowAppearance.setShininess(20);
+    this.windowAppearance.loadTexture("../resources/images/window.png");
+    this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE');
 
     this.materialLamp = new CGFappearance(this);
     this.materialLamp.setAmbient(0.1, 0.1, 0.1);
@@ -94,19 +97,21 @@ LightingScene.prototype.initLights = function() {
     // Positions for four lights
     this.lights[0].setPosition(4, 6, 1, 1);
     this.lights[0].setVisible(true);
-    // show marker on light position (different from enabled)
 
     this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
     this.lights[1].setVisible(true);
-    // show marker on light position (different from enabled)
 
     this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
     this.lights[2].setVisible(true);
-    //this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+
     this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
     this.lights[3].setVisible(true);
-    //this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
+    this.lights[4].setPosition(0.1, 5, 7, 1.0);
+    this.lights[4].setVisible(false);
+
+    
+    // SETUP
     this.lights[0].setAmbient(0, 0, 0, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].setSpecular(1., 1., 0., 1.0);
@@ -127,6 +132,11 @@ LightingScene.prototype.initLights = function() {
     this.lights[3].setLinearAttenuation(0);
     this.lights[3].setQuadraticAttenuation(0.2);
     this.lights[3].enable();
+
+    this.lights[4].setSpecular(1.0, 0.95, 0.85, 1);
+    this.lights[4].setConstantAttenuation(0);
+    this.lights[4].setLinearAttenuation(1);
+    this.lights[4].enable();
 
 }
 ;
@@ -200,20 +210,20 @@ LightingScene.prototype.display = function() {
     this.floor.display();
     this.popMatrix();
 
-    // Left Wall
+    // Left Quad Wall
     this.pushMatrix();
     this.translate(0, 4, 7.5);
     this.rotate(90 * degToRad, 0, 1, 0);
     this.scale(15, 8, 0.2);
-    this.materialWall.apply();
-    this.wall.display();
+    this.windowAppearance.apply();
+    this.wallLeft.display();
     this.popMatrix();
 
-    // Plane Wall
+    // Right Plane Wall
     this.pushMatrix();
     this.translate(7.5, 4, 0);
     this.scale(15, 8, 0.2);
-    this.wall.display();
+    this.wallRight.display();
     this.popMatrix();
 
     // First Table
