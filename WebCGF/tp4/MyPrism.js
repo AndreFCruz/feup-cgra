@@ -17,6 +17,7 @@ MyPrism.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];
     this.normals = [];
+    //this.texCoords = [];
 
     var radsConst = (Math.PI / 180) * (360 / this.slices);
     var deltaZ = 1 / this.stacks;
@@ -28,6 +29,7 @@ MyPrism.prototype.initBuffers = function() {
 
             this.vertices = this.vertices.concat(new_vertex);
             this.vertices = this.vertices.concat(new_vertex);
+
         }
     }
 

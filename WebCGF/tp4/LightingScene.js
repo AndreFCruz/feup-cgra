@@ -48,20 +48,6 @@ LightingScene.prototype.init = function(application) {
     // Materials
     this.materialDefault = new CGFappearance(this);
 
-    this.materialA = new CGFappearance(this);
-    this.materialA.setAmbient(0.3, 0.3, 0.3, 1);
-    this.materialA.setDiffuse(0.6, 0.6, 0.6, 1);
-    //this.materialA.setSpecular(0.2, 0.2, 0.2, 1);
-    this.materialA.setSpecular(0, 0.2, 0.8, 1);
-    //this.materialA.setShininess(10);
-    this.materialA.setShininess(120);
-
-    this.materialB = new CGFappearance(this);
-    this.materialB.setAmbient(0.3, 0.3, 0.3, 1);
-    this.materialB.setDiffuse(0.6, 0.6, 0.6, 1);
-    this.materialB.setSpecular(0.8, 0.8, 0.8, 1);
-    this.materialB.setShininess(120);
-
     this.floorAppearance = new CGFappearance(this);
     this.floorAppearance.setAmbient(0.3, 0.4, 0.4, 1);
     this.floorAppearance.setDiffuse(0.4, 0.4, 0.4, 1);
@@ -88,14 +74,21 @@ LightingScene.prototype.init = function(application) {
     this.boardAppearance.setAmbient(1, 1, 1, 1);
     this.boardAppearance.setDiffuse(0.6, 0.6, 0.6, 1);
     this.boardAppearance.setSpecular(0.5, 0.5, 0.5, 1);
-    this.boardAppearance.setShininess(100);
+    this.boardAppearance.setShininess(250);
     this.boardAppearance.loadTexture("../resources/images/board.png");
 
+    this.columnAppearance = new CGFappearance(this);
+    this.columnAppearance.setAmbient(0.3, 0.3, 0.3);
+    this.columnAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+    this.columnAppearance.setSpecular(0.2, 0.2, 0.2, 1);
+    this.columnAppearance.setShininess(50);
+    this.columnAppearance.loadTexture("../resources/images/stone_column.png");
+
     this.materialLamp = new CGFappearance(this);
-    this.materialLamp.setAmbient(0.1, 0.1, 0.1);
-    this.materialLamp.setDiffuse(0.5, 0.5, 0.1, 1);
-    this.materialLamp.setSpecular(0.8, 0.8, 0.2, 1);
-    this.materialLamp.setShininess(250);
+    this.materialLamp.setAmbient(0.2, 0.2, 0.2);
+    this.materialLamp.setDiffuse(0.8, 0.8, 0.5, 1);
+    this.materialLamp.setSpecular(0.8, 0.8, 0.6, 1);
+    this.materialLamp.setShininess(100);
 }
 ;
 
@@ -196,6 +189,7 @@ LightingScene.prototype.display = function() {
     this.translate(4, 0, 14);
     this.rotate(- Math.PI / 2, 1, 0, 0);
     this.scale(1, 1, 7);
+    this.columnAppearance.apply();
     this.cylinder.display();
     this.popMatrix();
 
