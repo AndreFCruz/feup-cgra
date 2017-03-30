@@ -39,7 +39,8 @@ Plane.prototype.initBuffers = function() {
 	this.normals = [];
 	this.texCoords = [];
 
-	var not_drawn = 1 - 1 / this.imgRatio;
+	var not_drawnX = 1 - 1 / this.imgRatio;
+	var not_drawnY = 1 - 1 * this.imgRatio;
 
 	var yCoord = 0.5;
 
@@ -54,8 +55,11 @@ Plane.prototype.initBuffers = function() {
 			// So all the vertices will have the same normal, (0, 0, 1).
 			
 			this.normals.push(0,0,1);
-
-			this.texCoords.push( -not_drawn + (xCoord + 0.5) * this.imgRatio, (1 - (yCoord + 0.5)));
+			
+			if (this.imgRatio >= 1)
+				this.texCoords.push( - (not_drawnX / 2) * this.imgRatio + (xCoord + 0.5) * this.imgRatio, (1 - (yCoord + 0.5)));
+			else
+				this.texCoords.push( (xCoord + 0.5), - (not_drawnY / 2) / this.imgRatio + (1 - (yCoord + 0.5)) / this.imgRatio );
 
 			xCoord += this.patchLength;
 		}

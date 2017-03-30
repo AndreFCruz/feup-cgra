@@ -38,7 +38,7 @@ LightingScene.prototype.init = function(application) {
     this.wallLeft = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
     this.floor = new MyQuad(this, 0, 10, 0, 12);
 
-    this.boardA = new Plane(this,BOARD_A_DIVISIONS, 2);
+    this.boardA = new Plane(this,BOARD_A_DIVISIONS, 1.5);
     this.boardB = new Plane(this,BOARD_B_DIVISIONS);
 
     this.prism = new MyPrism(this, 10, 20);
