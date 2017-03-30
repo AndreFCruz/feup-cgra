@@ -39,6 +39,8 @@ Plane.prototype.initBuffers = function() {
 	this.normals = [];
 	this.texCoords = [];
 
+	var not_drawn = 1 - 1 / this.imgRatio;
+
 	var yCoord = 0.5;
 
 	for (var j = 0; j <= this.nrDivs; j++) 
@@ -53,7 +55,7 @@ Plane.prototype.initBuffers = function() {
 			
 			this.normals.push(0,0,1);
 
-			this.texCoords.push( (xCoord + 0.5) * this.imgRatio, (1 - (yCoord + 0.5)));
+			this.texCoords.push( -not_drawn + (xCoord + 0.5) * this.imgRatio, (1 - (yCoord + 0.5)));
 
 			xCoord += this.patchLength;
 		}

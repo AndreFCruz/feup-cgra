@@ -38,7 +38,7 @@ LightingScene.prototype.init = function(application) {
     this.wallLeft = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
     this.floor = new MyQuad(this, 0, 10, 0, 12);
 
-    this.boardA = new Plane(this,BOARD_A_DIVISIONS);
+    this.boardA = new Plane(this,BOARD_A_DIVISIONS, 2);
     this.boardB = new Plane(this,BOARD_B_DIVISIONS);
 
     this.prism = new MyPrism(this, 10, 20);
@@ -69,6 +69,7 @@ LightingScene.prototype.init = function(application) {
     this.slidesAppearance.setSpecular(0.1, 0.1, 0.1, 1);
     this.slidesAppearance.setShininess(10);
     this.slidesAppearance.loadTexture("../resources/images/slides.png");
+    this.slidesAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.boardAppearance = new CGFappearance(this);
     this.boardAppearance.setAmbient(1, 1, 1, 1);
