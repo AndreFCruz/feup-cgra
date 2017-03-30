@@ -38,7 +38,7 @@ LightingScene.prototype.init = function(application) {
     this.wallLeft = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
     this.floor = new MyQuad(this, 0, 10, 0, 12);
 
-    this.boardA = new Plane(this,BOARD_A_DIVISIONS, 1.5);
+    this.boardA = new Plane(this,BOARD_A_DIVISIONS, BOARD_WIDTH / BOARD_HEIGHT);
     this.boardB = new Plane(this,BOARD_B_DIVISIONS);
 
     this.prism = new MyPrism(this, 10, 20);
@@ -84,7 +84,6 @@ LightingScene.prototype.init = function(application) {
     this.columnAppearance.setSpecular(0.2, 0.2, 0.2, 1);
     this.columnAppearance.setShininess(50);
     this.columnAppearance.loadTexture("../resources/images/stone_column.png");
-    //this.columnAppearance.loadTexture("../resources/images/test_texture_homer.png");
 
     this.materialLamp = new CGFappearance(this);
     this.materialLamp.setAmbient(0.2, 0.2, 0.2);
