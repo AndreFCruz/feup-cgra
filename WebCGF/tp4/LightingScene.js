@@ -35,7 +35,7 @@ LightingScene.prototype.init = function(application) {
     // Scene elements
     this.table = new MyTable(this);
     this.wallRight = new Plane(this);
-    this.wallLeft = new MyQuad(this);
+    this.wallLeft = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
     this.floor = new MyQuad(this, 0, 10, 0, 12);
 
     this.boardA = new Plane(this,BOARD_A_DIVISIONS);
@@ -61,7 +61,7 @@ LightingScene.prototype.init = function(application) {
     this.windowAppearance.setSpecular(0.5, 0.5, 0.5, 1);
     this.windowAppearance.setShininess(20);
     this.windowAppearance.loadTexture("../resources/images/window.png");
-    this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE');
+    this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.slidesAppearance = new CGFappearance(this);
     this.slidesAppearance.setAmbient(1, 1, 1, 1);
