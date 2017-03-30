@@ -117,12 +117,8 @@ LightingScene.prototype.initLights = function() {
     this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
     this.lights[3].setVisible(true);
 
-    //this.lights[4].setPosition(0.1, 5, 7, 1.0);
-    //this.lights[4].setVisible(false);
-
-    this.lights[4].setPosition(25, 15, 25, 1.0);
-    this.lights[4].setVisible(true);
-
+    this.lights[4].setPosition(0.1, 5, 7, 1.0);
+    this.lights[4].setVisible(false);
     
     // SETUP
     this.lights[0].setAmbient(0, 0, 0, 1);
@@ -148,7 +144,7 @@ LightingScene.prototype.initLights = function() {
 
     this.lights[4].setSpecular(1.0, 0.95, 0.85, 1);
     this.lights[4].setConstantAttenuation(0);
-//    this.lights[4].setLinearAttenuation(1);
+    //this.lights[4].setLinearAttenuation(1);
     this.lights[4].enable();
 
 }
