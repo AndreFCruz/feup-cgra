@@ -22,6 +22,9 @@ MyPrism.prototype.initBuffers = function() {
     var radsConst = (Math.PI / 180) * (360 / this.slices);
     var deltaZ = 1 / this.stacks;
 
+    // Texture Coords
+    this.texCoords = [];
+
     // Vertices
     for (var i = 0; i <= this.stacks; i++) {
         for (var j = 0; j < this.slices; j++) {
@@ -30,12 +33,20 @@ MyPrism.prototype.initBuffers = function() {
             this.vertices = this.vertices.concat(new_vertex);
             this.vertices = this.vertices.concat(new_vertex);
 
+            var new_coords = [j / (this.slices - 1), i / this.stacks];
+
+            if (j == 0) {
+                this.texCoords = this.texCoords.concat([1, 0]);
+                this.texCoords = this.texCoords.concat([0, 0]);
+            } else {
+                this.texCoords = this.texCoords.concat(new_coords);
+                this.texCoords = this.texCoords.concat(new_coords);
+            }
         }
     }
 
     // Indices
     for (var sl = 0; sl < this.slices; sl++) {
-        
         for (var st = 0; st < this.stacks; st++) {
             this.indices = this.indices.concat([
                 1 + 2 * sl + this.slices * 2 * st,
@@ -66,12 +77,12 @@ MyPrism.prototype.initBuffers = function() {
               0]);
               
         }
-    }
+    }    
 
     
     // NOTE: Top and Bottom - normals are shared with sides' normals, imperfect lightning
-
-    /* Bottom */
+/**
+    // Bottom
     var center_bot = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 0]);
     this.normals = this.normals.concat([0, 0, -1]);
@@ -80,7 +91,7 @@ MyPrism.prototype.initBuffers = function() {
         this.indices = this.indices.concat([i * 2, center_bot, (i + 1) * 2 % (this.slices * 2)]);
     }
 
-    /* Top */
+    // Top
     var center_top = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 1]);
     this.normals = this.normals.concat([0, 0, 1]);
@@ -88,7 +99,8 @@ MyPrism.prototype.initBuffers = function() {
     for (var i = this.stacks * this.slices * 2; i < (this.slices * 2) + this.stacks * this.slices * 2; i += 2) {
         this.indices = this.indices.concat([center_top, i, (i + 2) >= this.slices * 2 * (this.stacks + 1) ? i + 2 - this.slices * 2 : i + 2]);
     }
-
+    
+**/
     
 
     this.primitiveType = this.scene.gl.TRIANGLES;

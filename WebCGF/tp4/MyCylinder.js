@@ -21,12 +21,17 @@ MyCylinder.prototype.initBuffers = function() {
     var radsConst = (Math.PI / 180) * (360 / this.slices);
     var deltaZ = 1 / this.stacks;
 
+    // Texture Coords
+    this.texCoords = [];
+
     // Vertices
     for (var i = 0; i <= this.stacks; i++) {
         for (var j = 0; j < this.slices; j++) {
             var new_vertex = [Math.cos(radsConst * j), Math.sin(radsConst * j), i * deltaZ];
-
             this.vertices = this.vertices.concat(new_vertex);
+
+            var new_coords = [j / this.slices, i / this.stacks];
+            this.texCoords = this.texCoords.concat(new_coords);
         }
     }
 
@@ -64,8 +69,8 @@ MyCylinder.prototype.initBuffers = function() {
 
 
     // NOTE: Top and Bottom - normals are shared with sides' normals, imperfect lightning
-
-    /* Bottom */
+/*
+    // Bottom
     var center_bot = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 0]);
     this.normals = this.normals.concat([0, 0, -1]);
@@ -74,7 +79,7 @@ MyCylinder.prototype.initBuffers = function() {
         this.indices = this.indices.concat([i, center_bot, (i + 1) % this.slices]);
     }
 
-    /* Top */
+    // Top
     var center_top = (this.vertices.length / 3);
     this.vertices = this.vertices.concat([0, 0, 1]);
     this.normals = this.normals.concat([0, 0, 1]);
@@ -84,7 +89,7 @@ MyCylinder.prototype.initBuffers = function() {
         this.indices = this.indices.concat([
             center_top, i, (i + 1) < (this.vertices.length / 3 - 2) ? i + 1 : i + 1 - this.slices]);
     }
-
+*/
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();

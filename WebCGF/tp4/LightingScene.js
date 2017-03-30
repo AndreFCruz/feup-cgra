@@ -84,6 +84,7 @@ LightingScene.prototype.init = function(application) {
     this.columnAppearance.setSpecular(0.2, 0.2, 0.2, 1);
     this.columnAppearance.setShininess(50);
     this.columnAppearance.loadTexture("../resources/images/stone_column.png");
+    //this.columnAppearance.loadTexture("../resources/images/test_texture_homer.png");
 
     this.materialLamp = new CGFappearance(this);
     this.materialLamp.setAmbient(0.2, 0.2, 0.2);
@@ -95,6 +96,7 @@ LightingScene.prototype.init = function(application) {
 
 LightingScene.prototype.initCameras = function() {
     this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(30, 30, 30),vec3.fromValues(0, 0, 0));
+    //this.camera = new CGFcamera(0.4,0.2,500,vec3.fromValues(1, 30, 1),vec3.fromValues(5, 20, 5));
 }
 ;
 
@@ -115,8 +117,11 @@ LightingScene.prototype.initLights = function() {
     this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
     this.lights[3].setVisible(true);
 
-    this.lights[4].setPosition(0.1, 5, 7, 1.0);
-    this.lights[4].setVisible(false);
+    //this.lights[4].setPosition(0.1, 5, 7, 1.0);
+    //this.lights[4].setVisible(false);
+
+    this.lights[4].setPosition(25, 15, 25, 1.0);
+    this.lights[4].setVisible(true);
 
     
     // SETUP
@@ -143,7 +148,7 @@ LightingScene.prototype.initLights = function() {
 
     this.lights[4].setSpecular(1.0, 0.95, 0.85, 1);
     this.lights[4].setConstantAttenuation(0);
-    this.lights[4].setLinearAttenuation(1);
+//    this.lights[4].setLinearAttenuation(1);
     this.lights[4].enable();
 
 }
