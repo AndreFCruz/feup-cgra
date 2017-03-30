@@ -144,7 +144,7 @@ LightingScene.prototype.initLights = function() {
 
     this.lights[4].setSpecular(1.0, 0.95, 0.85, 1);
     this.lights[4].setConstantAttenuation(0);
-    //this.lights[4].setLinearAttenuation(1);
+    this.lights[4].setLinearAttenuation(1);
     this.lights[4].enable();
 
 }
