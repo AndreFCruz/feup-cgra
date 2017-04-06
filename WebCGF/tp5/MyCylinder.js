@@ -10,7 +10,8 @@ function MyCylinder(scene, slices, stacks) {
 
     this.initBuffers();
 }
-;MyCylinder.prototype = Object.create(CGFobject.prototype);
+
+MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
 
 MyCylinder.prototype.initBuffers = function() {

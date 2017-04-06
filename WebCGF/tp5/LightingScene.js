@@ -45,6 +45,8 @@ LightingScene.prototype.init = function(application) {
     this.cylinder = new MyCylinder(this, 10, 20);
     this.lamp = new MyLamp(this, 20, 100);
 
+    this.circle = new MyCircle(this, 120);
+
     // Materials
     this.materialDefault = new CGFappearance(this);
 
@@ -184,7 +186,7 @@ LightingScene.prototype.display = function() {
 
     // ---- BEGIN Primitive drawing section
 
-
+/*
     // Column - Cylinder
     this.pushMatrix();
     this.translate(4, 0, 14);
@@ -267,5 +269,8 @@ LightingScene.prototype.display = function() {
     this.popMatrix();
 
     // ---- END Primitive drawing section
+*/
+
+    this.circle.display();
 }
 ;
