@@ -186,7 +186,7 @@ LightingScene.prototype.display = function() {
 
     // ---- BEGIN Primitive drawing section
 
-/*
+
     // Column - Cylinder
     this.pushMatrix();
     this.translate(4, 0, 14);
@@ -268,9 +268,15 @@ LightingScene.prototype.display = function() {
     this.boardB.display();
     this.popMatrix();
 
-    // ---- END Primitive drawing section
-*/
-
+    // Clock
+    this.pushMatrix();
+    this.translate(7.25, 7.25, 0);
+    this.scale(0.7, 0.7, 0.5);
     this.clock.display();
+    this.popMatrix();
+
+    // ---- END Primitive drawing section
+
+
 }
 ;
