@@ -45,7 +45,7 @@ LightingScene.prototype.init = function(application) {
     this.cylinder = new MyCylinder(this, 10, 20);
     this.lamp = new MyLamp(this, 20, 100);
 
-    this.circle = new MyCircle(this, 120);
+    this.clock = new MyClock(this);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -271,6 +271,6 @@ LightingScene.prototype.display = function() {
     // ---- END Primitive drawing section
 */
 
-    this.circle.display();
+    this.clock.display();
 }
 ;

@@ -18,18 +18,19 @@ MyCircle.prototype.initBuffers = function() {
 
     this.vertices = [];
     this.indices = [];
-    //this.texCoords = [];
+    this.texCoords = [];
 
     // Assign vertices
     var deltaTheta = Math.PI * 2 / this.slices;
     for (var i = 0; i < this.slices; i++) {
         this.vertices.push(Math.cos(deltaTheta * i), Math.sin(deltaTheta * i), 0);
-        //this.texCoords.push(Math.cos(deltaTheta * i), Math.sin(deltaTheta * i));
+        this.texCoords.push((Math.cos(deltaTheta * i) / 2) + 0.5, 0.5 - (Math.sin(deltaTheta * i) / 2));
     }
 
     // Center vertex
     var center_idx = this.vertices.length / 3;
     this.vertices.push(0, 0, 0);
+    this.texCoords.push(0.5, 0.5);
 
     // Assign indices
     for (var i = 0; i < this.slices; i++) {
