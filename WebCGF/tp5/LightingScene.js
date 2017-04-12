@@ -46,6 +46,7 @@ LightingScene.prototype.init = function(application) {
     this.lamp = new MyLamp(this, 20, 100);
 
     this.clock = new MyClock(this);
+    this.paperPlane = new MyPaperPlane(this);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -92,6 +93,16 @@ LightingScene.prototype.init = function(application) {
     this.materialLamp.setDiffuse(0.8, 0.8, 0.5, 1);
     this.materialLamp.setSpecular(0.8, 0.8, 0.6, 1);
     this.materialLamp.setShininess(100);
+
+    this.paperPlaneAppearance = new CGFappearance(this);
+    this.paperPlaneAppearance.setAmbient(1, 1, 1, 1);
+    this.paperPlaneAppearance.setDiffuse(0.6, 0.6, 0.6, 1);
+    this.paperPlaneAppearance.setSpecular(0, 0, 0, 1);
+    this.paperPlaneAppearance.setShininess(40);
+
+
+    //Animation
+    this.setUpdatePeriod(100);
 }
 ;
 
@@ -186,7 +197,7 @@ LightingScene.prototype.display = function() {
 
     // ---- BEGIN Primitive drawing section
 
-
+    
     // Column - Cylinder
     this.pushMatrix();
     this.translate(4, 0, 14);
@@ -268,15 +279,26 @@ LightingScene.prototype.display = function() {
     this.boardB.display();
     this.popMatrix();
 
+    this.materialDefault.apply();
+
     // Clock
     this.pushMatrix();
     this.translate(7.25, 7.25, 0);
     this.scale(0.7, 0.7, 0.5);
     this.clock.display();
     this.popMatrix();
-
+    
+    //PaperPlane
+    this.pushMatrix();
+        this.translate(11,3.80, 8);
+        this.paperPlaneAppearance.apply();
+        this.paperPlane.display();
+    this.popMatrix();
     // ---- END Primitive drawing section
-
 
 }
 ;
+
+LightingScene.prototype.update = function(currTime) {
+    this.clock.update(currTime);
+}
