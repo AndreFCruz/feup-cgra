@@ -29,6 +29,7 @@ function  MyClock(scene, width = 0.2) {
 	//Animation Controller
 	this.lastTime = 0;
 	this.updateTime = 1000;
+	this.avgUpdate = 1000;
 
 	// Materials
 	this.clockAppearance = new CGFappearance(this.scene);
@@ -90,8 +91,8 @@ MyClock.prototype.update = function(currTime) {
 		this.lastTime = currTime;
 
 		//1s is the normal updateTime
-		this.secondsHand.incAngle(360/ 60 * (this.updateTime / 1000));
-		this.minutesHand.incAngle(360 / 60 / 60 * (this.updateTime / 1000));
-		this.hoursHand.incAngle(360 / 60 / 60 / 12 * (this.updateTime / 1000));
+		this.secondsHand.incAngle(360/ 60 * (this.updateTime / this.avgUpdate));
+		this.minutesHand.incAngle(360 / 60 / 60 * (this.updateTime / this.avgUpdate));
+		this.hoursHand.incAngle(360 / 60 / 60 / 12 * (this.updateTime / this.avgUpdate));
 	}
 }

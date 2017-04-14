@@ -103,6 +103,32 @@ LightingScene.prototype.init = function(application) {
 
     //Animation
     this.setUpdatePeriod(100);
+    this.animationLastTime = 0;
+    this.animationUpdateTime = 100;
+    this.avgUpdate = 1000;
+
+    this.animationStatus = {
+        FLYING : 0,
+        FALLING : 1,
+        FLOOR : 2
+    }
+    this.animationCurrentStatus = this.animationStatus.FLYING;
+
+    //PaperPlane Animation related Macros
+    this.transX = 11;
+    this.transY = 3.8;
+
+    this.rotX = 0;
+    this.rotZ = 0;
+
+    this.wallX = 0;
+    this.floorY = 0;
+
+    this.zFallLimit = 90;
+    this.xFloorLimit = 40;
+    this.zFloorLimit = 13;    
+
+
 }
 ;
 
@@ -290,7 +316,9 @@ LightingScene.prototype.display = function() {
     
     //PaperPlane
     this.pushMatrix();
-        this.translate(11,3.80, 8);
+        this.translate(this.transX, this.transY, 8);
+        this.rotate(this.rotZ * Math.PI / 180, 0, 0, 1);
+        this.rotate(this.rotX * Math.PI / 180, 1, 0, 0);
         this.paperPlaneAppearance.apply();
         this.paperPlane.display();
     this.popMatrix();
@@ -301,4 +329,61 @@ LightingScene.prototype.display = function() {
 
 LightingScene.prototype.update = function(currTime) {
     this.clock.update(currTime);
+
+    //Plane update
+    if (currTime - this.animationLastTime >= this.animationUpdateTime)
+	{
+		this.animationLastTime = currTime;
+
+		//Velocities are Hard - Coded
+        switch (this.animationCurrentStatus) {
+            case (this.animationStatus.FLYING):
+                this.transX -= (3 * (this.animationUpdateTime / this.avgUpdate));
+                this.transY += (0.3 * (this.animationUpdateTime / this.avgUpdate));
+                
+                //Oscilation to simulate the wind
+                if ((this.animationLastTime % 3) == 0)
+                    this.rotX += (45 * (this.animationUpdateTime / this.avgUpdate));
+                else 
+                if ((this.animationLastTime % 3) == 1)
+                    this.rotX -= (45 * (this.animationUpdateTime / this.avgUpdate));
+                
+                this.updateStatus(this.animationCurrentStatus);
+                break;
+            
+            case (this.animationStatus.FALLING):
+                this.transY -= (7.1 * (this.animationUpdateTime / this.avgUpdate));
+
+                if (this.rotZ <= this.zFallLimit) {
+                    this.rotZ += (120 * (this.animationUpdateTime/this.avgUpdate));
+                    this.transX += (0.8 * (this.animationUpdateTime/this.avgUpdate));
+                }
+
+                this.updateStatus(this.animationCurrentStatus);
+                break;
+            
+            case (this.animationStatus.FLOOR):
+                if (this.rotX <= this.xFloorLimit)
+                    this.rotX += (180 * (this.animationUpdateTime / this.avgUpdate));
+                 
+                if (this.rotZ >= this.zFloorLimit)
+                    this.rotZ -= (180 * (this.animationUpdateTime / this.avgUpdate));
+                break;
+        }
+	}
+}
+
+LightingScene.prototype.updateStatus = function(currentStatus) {
+    switch (currentStatus) {
+       
+        case (this.animationStatus.FLYING):
+            if (this.transX <= this.wallX)
+                this.animationCurrentStatus = this.animationStatus.FALLING;
+            break;
+            
+        case (this.animationStatus.FALLING):
+            if (this.transY <= this.floorY)
+                this.animationCurrentStatus = this.animationStatus.FLOOR;
+            break;    
+    }
 }
