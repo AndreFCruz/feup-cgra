@@ -11,9 +11,12 @@ LightingScene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
     
     //Interface
-    this.option1=true;
-    this.option2=false;
-    this.speed=3;
+    this.light_01 = true;
+    this.light_02 = false;
+    this.light_03 = true;
+    this.light_04 = true;
+    this.pauseClock = false;
+    this.speed = 3;
 
     this.deg2rad = Math.PI / 180;
     
@@ -67,14 +70,34 @@ LightingScene.prototype.initCameras = function() {
     //this.camera = new CGFcamera(0.4,0.2,500,vec3.fromValues(1, 30, 1),vec3.fromValues(5, 20, 5));
 
     // Positions for four lights
-    this.lights[0].setPosition(4, 6, 1, 1);
+    this.lights[0].setPosition(8, 6, 5, 1);
     this.lights[0].setVisible(true);
 
+    this.lights[1].setPosition(-10, 6, 3, 1);
+    this.lights[1].setVisible(true);
+
+    this.lights[2].setPosition(10, 6, -9, 1);
+    this.lights[2].setVisible(true);
+    
+    this.lights[3].setPosition(-3, 6, -5, 1);
+    this.lights[3].setVisible(true);
+
     // SETUP
-    this.lights[0].setAmbient(1, 1, 1, 1);
-    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setSpecular(1., 1., 1., 1.0);
-    this.lights[0].enable();
+    this.lights[0].setAmbient(0.7, 0.7, 0.4, 1);
+    this.lights[0].setDiffuse(0.8, 0.8, 0.8, 1.0);
+    this.lights[0].setSpecular(0.6, 0.6, 0.3, 1.0);
+
+    this.lights[1].setAmbient(0.9, 0.7, 0.3, 1);
+    this.lights[1].setDiffuse(0.8, 0.6, 0.6, 1.0);
+    this.lights[1].setSpecular(0.7, 0.7, 0.3, 1.0);
+
+    this.lights[2].setAmbient(0.7, 0.7, 0.7, 1);
+    this.lights[2].setDiffuse(0.5, 0.5, 0.5, 1.0);
+    this.lights[2].setSpecular(0.9, 0.5, 0.2, 1.0);
+
+    this.lights[3].setAmbient(0.6, 0.6, 0.6, 1);
+    this.lights[3].setDiffuse(0.6, 0.6, 0.6, 1.0);
+    this.lights[3].setSpecular(0.6, 0.6, 0.6, 1.0);
 }
 ;
 
@@ -86,6 +109,7 @@ LightingScene.prototype.initLights = function() {
 ;
 
 LightingScene.prototype.updateLights = function() {
+    this.lightsCheck();
     for (i = 0; i < this.lights.length; i++)
         this.lights[i].update();
 }
@@ -157,11 +181,12 @@ LightingScene.prototype.display = function() {
 
 //Animation Functions
 LightingScene.prototype.update = function(currTime) {
-    this.clock.update(currTime);
+    if (!this.pauseClock)
+        this.clock.update(currTime);
 };
 
 LightingScene.prototype.doSomething = function () { 
-    console.log("Doing something..."); 
+    console.log("Doing something...");
 };
 
 //Interface Related Functions
@@ -175,4 +200,23 @@ LightingScene.prototype.rotateSubmarine = function (value) {
 LightingScene.prototype.moveSubmarine = function (direction) {
     this.subXposition += this.moveFactor * this.speed * direction * Math.sin(this.subAngRotation * this.deg2rad);
     this.subZposition += this.moveFactor * this.speed * direction * Math.cos(this.subAngRotation * this.deg2rad);
-}
+};
+
+LightingScene.prototype.lightsCheck = function () {
+   
+    if(this.light_01)
+        this.lights[0].enable();
+    else this.lights[0].disable();
+
+    if(this.light_02)
+        this.lights[1].enable();
+    else this.lights[1].disable();
+
+    if(this.light_03)
+        this.lights[2].enable();
+    else this.lights[2].disable();
+    
+    if(this.light_04)
+        this.lights[3].enable();
+    else this.lights[3].disable();
+};
