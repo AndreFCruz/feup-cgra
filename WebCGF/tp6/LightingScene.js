@@ -16,7 +16,7 @@ LightingScene.prototype.init = function(application) {
     this.light_03 = true;
     this.light_04 = true;
     this.pauseClock = false;
-    this.speed = 3;
+    this.acceleration = 3; // check values TODO
 
     this.deg2rad = Math.PI / 180;
     
@@ -40,11 +40,6 @@ LightingScene.prototype.init = function(application) {
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
 
-    //Interface Relagted Variables
-    this.subAngRotation = 98;
-    this.subXposition = 0;
-    this.subZposition = 0;
-
     // Materials
     this.materialDefault = new CGFappearance(this);
 
@@ -57,9 +52,6 @@ LightingScene.prototype.init = function(application) {
 
     //Animation
     this.setUpdatePeriod(100);
-    this.animationLastTime = 0;
-    this.animationUpdateTime = 100;
-    this.avgUpdate = 1000;
 }
 ;
 
@@ -166,6 +158,7 @@ LightingScene.prototype.display = function() {
     this.popMatrix();
 
     //Submarine
+    // TODO change to submarine's display
     this.pushMatrix();
         this.translate(this.subXposition, 0, this.subZposition);
         this.rotate(this.subAngRotation * this.deg2rad, 0, 1, 0);
@@ -187,19 +180,6 @@ LightingScene.prototype.update = function(currTime) {
 
 LightingScene.prototype.doSomething = function () { 
     console.log("Doing something...");
-};
-
-//Interface Related Functions
-LightingScene.prototype.rotateSubmarine = function (value) {
-    this.subAngRotation += value;
-
-    if (this.subAngRotation >= 360)
-        this.subAngRotation -= 360;
-};
-
-LightingScene.prototype.moveSubmarine = function (direction) {
-    this.subXposition += this.moveFactor * this.speed * direction * Math.sin(this.subAngRotation * this.deg2rad);
-    this.subZposition += this.moveFactor * this.speed * direction * Math.cos(this.subAngRotation * this.deg2rad);
 };
 
 LightingScene.prototype.lightsCheck = function () {
