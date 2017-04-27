@@ -36,7 +36,7 @@ LightingScene.prototype.init = function(application) {
 
     // Scene elements
     this.clock = new MyClock(this);
-    this.ocean = new MyQuad(this, 0, 5, 0, 5);
+    this.oceanFloor = new Plane(this, 10, 5);
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
 
@@ -159,12 +159,12 @@ LightingScene.prototype.display = function() {
         this.clock.display();
     this.popMatrix();
 
-    //Ocean
+    //oceanFloor
     this.pushMatrix();
         this.scale(32, 1, 32);
         this.rotate(-90 * this.deg2rad, 1, 0, 0);
         this.waterAppearance.apply();
-        this.ocean.display();
+        this.oceanFloor.display();
     this.popMatrix();
 
     //Submarine
