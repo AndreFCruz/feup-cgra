@@ -44,8 +44,6 @@ LightingScene.prototype.init = function(application) {
     this.subAngRotation = 98;
     this.subXposition = 0;
     this.subZposition = 0;
-    this.moveFactor = 0.05
-    ;
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -183,6 +181,8 @@ LightingScene.prototype.display = function() {
 LightingScene.prototype.update = function(currTime) {
     if (!this.pauseClock)
         this.clock.update(currTime);
+
+    
 };
 
 LightingScene.prototype.doSomething = function () { 

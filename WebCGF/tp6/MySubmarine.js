@@ -7,6 +7,16 @@ function MySubmarine(scene) {
     CGFobject.call(this, scene);
 
     this.initBuffers();
+
+    this.MAX_VEL = 100; // max Vel in world units per second
+    this.vel = 0;
+
+    this.pos_x = 0;
+    this.pos_z = 0;
+
+    
+
+    this.lastUpdateTime;
 }
 ;
 MySubmarine.prototype = Object.create(CGFobject.prototype);
@@ -27,3 +37,7 @@ MySubmarine.prototype.initBuffers = function() {
     this.initGLBuffers();
 }
 ;
+
+MySubmarine.prototype.update() = function() {
+
+}
