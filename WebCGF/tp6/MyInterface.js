@@ -55,6 +55,8 @@ MyInterface.prototype.init = function(application) {
 	
 	this.gui.add(this.scene, 'acceleration', -5, 5);
 
+	this.submarine = this.scene.getSubmarine();
+
 	return true;
 };
 
@@ -74,22 +76,22 @@ MyInterface.prototype.processKeyboard = function(event) {
 	{
 		case (65):	//A
 		case (97):
-			this.scene.rotateSubmarine(5);
+			this.submarine.rotateLeft();
 			break;
 
 		case (68):	//D
 		case (100):
-			this.scene.rotateSubmarine(-5);
+			this.submarine.rotateRight();
 			break;
 
 		case (87):	//W
 		case (119):
-			this.scene.moveSubmarine(1);
+			this.submarine.moveForward();
 			break;
 		
 		case (83):	//S
 		case (115):
-			this.scene.moveSubmarine(-1);
+			this.submarine.moveBackward();
 			break;
 	};
 };

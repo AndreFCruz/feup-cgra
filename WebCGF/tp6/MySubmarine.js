@@ -20,6 +20,8 @@ function MySubmarine(scene) {
     this.ANG_INCREMENT = 2;
 
     this.lastUpdateTime;
+
+    this.cylinder = new MyCylinder(this.scene, 12, 1);
 }
 ;
 MySubmarine.prototype = Object.create(CGFobject.prototype);
@@ -46,19 +48,25 @@ MySubmarine.prototype.update = function(currTime) {
     this.lastUpdateTime = currTime;
 
     this.pos_x += this.deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
-    this.pos_y += this.deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
+    this.pos_z += this.deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
     
 }
 
 MySubmarine.prototype.display = function() {
-    // TODO
+    this.scene.pushMatrix();
+        this.scene.translate(this.pos_x, 0, this.pos_z);
+        this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
+        
+        this.cylinder.display();
+        
+    this.scene.popMatrix();
 }
 
-MySubmarine.prototype.goForward = function() {
+MySubmarine.prototype.moveForward = function() {
     this.velocity += this.scene.acceleration;
 }
 
-MySubmarine.prototype.goBackward = function() {
+MySubmarine.prototype.moveBackward = function() {
     this.velocity -= this.scene.acceleration;
 }
 

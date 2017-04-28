@@ -158,12 +158,7 @@ LightingScene.prototype.display = function() {
     this.popMatrix();
 
     //Submarine
-    // TODO change to submarine's display
-    this.pushMatrix();
-        this.translate(this.subXposition, 0, this.subZposition);
-        this.rotate(this.subAngRotation * this.deg2rad, 0, 1, 0);
-        this.submarine.display();
-    this.popMatrix();
+    this.submarine.display();
     
     // ---- END Primitive drawing section
 
@@ -199,4 +194,8 @@ LightingScene.prototype.lightsCheck = function () {
     if(this.light_04)
         this.lights[3].enable();
     else this.lights[3].disable();
+};
+
+LightingScene.prototype.getSubmarine = function () { 
+    return this.submarine;
 };
