@@ -10,7 +10,7 @@ function MySubmarine(scene) {
 
     this.deg2rad = Math.PI / 180;
 
-    this.MAX_VEL = 100; // max Vel in world units per second
+    this.MAX_VEL = 3; // max Vel in world units per second
     this.velocity = 0;
 
     this.pos_x = 0;
@@ -55,8 +55,7 @@ MySubmarine.prototype.update = function(currTime) {
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
 
-    console.log("Submarine pos: " + this.pos_x + ", " + this.pos_z);
-    
+    //console.log("Submarine pos: " + this.pos_x + ", " + this.pos_z);
 }
 
 MySubmarine.prototype.display = function() {
