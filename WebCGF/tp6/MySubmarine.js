@@ -19,7 +19,7 @@ function MySubmarine(scene) {
     this.ang = 98;
     this.ANG_INCREMENT = 2;
 
-    this.lastUpdateTime;
+    this.lastUpdateTime = 0;
 
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
@@ -52,8 +52,10 @@ MySubmarine.prototype.update = function(currTime) {
     var deltaTime = currTime - this.lastUpdateTime;
     this.lastUpdateTime = currTime;
 
-    this.pos_x += this.deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
-    this.pos_z += this.deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
+    this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
+    this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
+
+    console.log("Submarine pos: " + this.pos_x + ", " + this.pos_z);
     
 }
 

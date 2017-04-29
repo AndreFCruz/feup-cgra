@@ -170,7 +170,7 @@ LightingScene.prototype.update = function(currTime) {
     if (!this.pauseClock)
         this.clock.update(currTime);
 
-    this.submarine.update();    
+    this.submarine.update(currTime);    
 };
 
 LightingScene.prototype.doSomething = function () { 
