@@ -170,7 +170,7 @@ LightingScene.prototype.update = function(currTime) {
     if (!this.pauseClock)
         this.clock.update(currTime);
 
-    
+    this.submarine.update();    
 };
 
 LightingScene.prototype.doSomething = function () { 
@@ -197,5 +197,6 @@ LightingScene.prototype.lightsCheck = function () {
 };
 
 LightingScene.prototype.getSubmarine = function () { 
+    console.log("Scene's getSubmarine called");
     return this.submarine;
 };

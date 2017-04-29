@@ -21,7 +21,12 @@ function MySubmarine(scene) {
 
     this.lastUpdateTime;
 
+    // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
+
+
+    // Materials
+    this.materialDefault = new CGFappearance(this);
 }
 ;
 MySubmarine.prototype = Object.create(CGFobject.prototype);
@@ -53,6 +58,8 @@ MySubmarine.prototype.update = function(currTime) {
 }
 
 MySubmarine.prototype.display = function() {
+    this.scene.materialDefault.apply();
+
     this.scene.pushMatrix();
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
@@ -64,10 +71,12 @@ MySubmarine.prototype.display = function() {
 
 MySubmarine.prototype.moveForward = function() {
     this.velocity += this.scene.acceleration;
+    console.log("Move Forward: incremented velocity to " + this.velocity);
 }
 
 MySubmarine.prototype.moveBackward = function() {
     this.velocity -= this.scene.acceleration;
+    console.log("Move Backward: decremented velocity to " + this.velocity);
 }
 
 MySubmarine.prototype.rotateLeft = function() {
@@ -77,6 +86,8 @@ MySubmarine.prototype.rotateLeft = function() {
         this.ang -= 360;
     else if (this.ang < 0)
         this.ang += 360;
+
+    console.log("Rotate Left. Ang: " + this.ang);
 }
 
 MySubmarine.prototype.rotateRight = function() {
@@ -86,8 +97,12 @@ MySubmarine.prototype.rotateRight = function() {
         this.ang -= 360;
     else if (this.ang < 0)
         this.ang += 360;
+
+    console.log("Rotate Right. Ang: " + this.ang);
 }
 
+/*
 MySubmarine.prototype.setVelocity = function(new_vel) {
     this.velocity = new_vel;
 }
+*/
