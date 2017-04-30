@@ -23,7 +23,11 @@ function MySubmarine(scene) {
 
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
-
+    this.semisphere = new MySemiSphere(this.scene, 12, 6);
+    this.circle = new MyCircle(this.scene, 12);
+    this.trapezeTail = new MyTrapeze(this.scene, 1.64, 2.34);
+    this.trapezeTower = new MyTrapeze(this.scene, 1.1, 1.42);
+    this.helix = new MyHelix(this.scene, 12, 1, 6);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -60,13 +64,107 @@ MySubmarine.prototype.update = function(currTime) {
 
 MySubmarine.prototype.display = function() {
     this.scene.materialDefault.apply();
-
+    
     this.scene.pushMatrix();
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
-        
-        this.cylinder.display();
-        
+
+        //Main Body
+        this.scene.pushMatrix();
+            this.scene.scale(0.365, 0.5, 4.08);
+            this.cylinder.display();
+        this.scene.popMatrix();
+
+        //Submarine's front
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 4.08);
+            this.scene.scale(0.365, 0.5, 0.46);
+            this.semisphere.display();
+        this.scene.popMatrix();
+
+        //Subsmarine's Back
+        this.scene.pushMatrix();
+            this.scene.rotate(180 * this.deg2rad, 0, 1, 0);
+            this.scene.scale(0.365, 0.5, 0.46);
+            this.semisphere.display();
+        this.scene.popMatrix();
+
+        //Submarine's Tower
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 2.50);
+            this.scene.scale(0.27 , 1.07, 0.44);
+            this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+            this.cylinder.display();
+        this.scene.popMatrix();
+
+        //Submarine's Tower Top
+        this.scene.pushMatrix();
+            this.scene.translate(0, 1.07, 2.50);
+            this.scene.scale(0.27 , 1, 0.44);
+            this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+            this.circle.display();
+        this.scene.popMatrix();
+
+        //Subamrine's Periscope
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 2.65);
+            this.scene.scale(0.10 , 1.65, 0.10);
+            this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+            this.cylinder.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.translate(0, 1.65, 2.55);
+            this.scene.scale(0.10 , 0.10, 0.30);
+            this.cylinder.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.translate(0, 1.65, 2.85);
+            this.scene.scale(0.10 , 0.10, 1);
+            this.circle.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.translate(0, 1.65, 2.55);
+            this.scene.scale(0.10 , 0.10, 1);
+            this.scene.rotate(180 * this.deg2rad, 0, 1, 0);
+            this.circle.display();
+        this.scene.popMatrix();
+
+        //Submarine's 'Fins'
+        this.scene.pushMatrix();
+            this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+            this.scene.scale(1, 0.3, 0.2);
+            this.trapezeTail.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.rotate(-90 * this.scene.deg2rad, 0, 0, 1);
+            this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+            this.scene.scale(1, 0.3, 0.2);
+            this.trapezeTail.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.translate(0 , 0.8, 2.40);
+            this.scene.scale(1, 0.15, 0.25);
+            this.trapezeTower.display();
+        this.scene.popMatrix();
+
+        //Subamrine's Helix
+        this.scene.pushMatrix();
+            this.scene.translate(0.73/2 + 0.15, -0.3, 0);
+            this.scene.scale(0.2, 0.2, 0.2);
+            this.helix.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.translate(-0.73/2 - 0.15, -0.3, 0);
+            this.scene.scale(0.2, 0.2, 0.2);
+            this.helix.display();
+        this.scene.popMatrix();
+
     this.scene.popMatrix();
 }
 

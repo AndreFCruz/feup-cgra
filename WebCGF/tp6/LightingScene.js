@@ -151,7 +151,7 @@ LightingScene.prototype.display = function() {
 
     //oceanFloor
     this.pushMatrix();
-        this.scale(32, 1, 32);
+        this.scale(64, 1, 64);
         this.rotate(-90 * this.deg2rad, 1, 0, 0);
         this.waterAppearance.apply();
         this.oceanFloor.display();
