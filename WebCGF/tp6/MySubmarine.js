@@ -26,6 +26,8 @@ function MySubmarine(scene) {
     this.dampening_ang_vel = false;
     this.dampen_constant = 2;
 
+    this.pivot = [0, 0];
+
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
     this.semisphere = new MySemiSphere(this.scene, 12, 6);
@@ -68,12 +70,16 @@ MySubmarine.prototype.update = function(currTime) {
 
     if (this.dampening_ang_vel)
         this.ang_vel -= (this.ang_vel * this.dampen_constant * 0.001 * deltaTime);
+
+    this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 }
 
 MySubmarine.prototype.display = function() {
     this.scene.materialDefault.apply();
     
     this.scene.pushMatrix();
+        this.scene.translate(- this.pivot[0], 0, - this.pivot[1]);
+    
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
 
@@ -203,7 +209,7 @@ MySubmarine.prototype.rotatingRight = function() {
     this.dampening_ang_vel = false;
 
     this.ang_vel -= this.ang_accel;
-    
+
     if (this.ang_vel < -this.MAX_ANG_VEL)
         this.ang_vel = -this.MAX_ANG_VEL;
 }
