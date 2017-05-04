@@ -74,16 +74,6 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (65):	//A
-		case (97):
-			this.submarine.rotateLeft();
-			break;
-
-		case (68):	//D
-		case (100):
-			this.submarine.rotateRight();
-			break;
-
 		case (87):	//W
 		case (119):
 			this.submarine.moveForward();
@@ -92,6 +82,34 @@ MyInterface.prototype.processKeyboard = function(event) {
 		case (83):	//S
 		case (115):
 			this.submarine.moveBackward();
+			break;
+	};
+};
+
+MyInterface.prototype.processKeyDown = function(event) {	
+	switch (event.keyCode)
+	{
+		case (65):	//A
+		case (97):
+			this.submarine.rotatingLeft();
+			break;
+
+		case (68):	//D
+		case (100):
+			this.submarine.rotatingRight();
+			break;
+
+	};
+};
+
+MyInterface.prototype.processKeyUp = function(event) {	
+	switch (event.keyCode)
+	{
+		case (65):	//A
+		case (97):
+		case (68):	//D
+		case (100):
+			this.submarine.dampenAngVel();
 			break;
 	};
 };

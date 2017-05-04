@@ -51,7 +51,7 @@ LightingScene.prototype.init = function(application) {
     this.waterAppearance.loadTexture("../resources/images/ocean.png");
 
     //Animation
-    this.setUpdatePeriod(100);
+    this.setUpdatePeriod(10);
 }
 ;
 
