@@ -10,16 +10,23 @@ function MySubmarine(scene) {
 
     this.deg2rad = Math.PI / 180;
 
-    this.MAX_VEL = 3; // max Vel in world units per second
+    this.MAX_VEL = 6; // max Vel in world units per second
     this.velocity = 0;
 
     this.pos_x = 0;
     this.pos_z = 0;
 
     this.ang = 98;
-    this.ANG_INCREMENT = 2;
+    this.ang_vel = 0;
+    this.ang_accel = 20;
+    this.MAX_ANG_VEL = 100;
 
     this.lastUpdateTime = 0;
+
+    this.dampening_ang_vel = false;
+    this.dampen_constant = 2;
+
+    this.pivot = [0, 0];
 
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
@@ -59,13 +66,20 @@ MySubmarine.prototype.update = function(currTime) {
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
 
-    //console.log("Submarine pos: " + this.pos_x + ", " + this.pos_z);
+    this.ang += 0.001 * deltaTime * this.ang_vel;
+
+    if (this.dampening_ang_vel)
+        this.ang_vel -= (this.ang_vel * this.dampen_constant * 0.001 * deltaTime);
+
+    this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 }
 
 MySubmarine.prototype.display = function() {
     this.scene.materialDefault.apply();
     
     this.scene.pushMatrix();
+        this.scene.translate(- this.pivot[0], 0, - this.pivot[1]);
+    
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
 
@@ -170,14 +184,41 @@ MySubmarine.prototype.display = function() {
 
 MySubmarine.prototype.moveForward = function() {
     this.velocity += this.scene.acceleration;
-    console.log("Move Forward: incremented velocity to " + this.velocity);
+
+    if (this.velocity > this.MAX_VEL)
+        this.velocity = this.MAX_VEL;
 }
 
 MySubmarine.prototype.moveBackward = function() {
     this.velocity -= this.scene.acceleration;
-    console.log("Move Backward: decremented velocity to " + this.velocity);
+    
+    if (this.velocity < - this.MAX_VEL)
+        this.velocity = - this.MAX_VEL;
 }
 
+MySubmarine.prototype.rotatingLeft = function() {
+    this.dampening_ang_vel = false;
+
+    this.ang_vel += this.ang_accel;
+
+    if (this.ang_vel > this.MAX_ANG_VEL)
+        this.ang_vel = this.MAX_ANG_VEL;
+}
+
+MySubmarine.prototype.rotatingRight = function() {
+    this.dampening_ang_vel = false;
+
+    this.ang_vel -= this.ang_accel;
+
+    if (this.ang_vel < -this.MAX_ANG_VEL)
+        this.ang_vel = -this.MAX_ANG_VEL;
+}
+
+MySubmarine.prototype.dampenAngVel = function() {
+    this.dampening_ang_vel = true;
+}
+
+/*
 MySubmarine.prototype.rotateLeft = function() {
     this.ang += this.ANG_INCREMENT;
 
@@ -188,7 +229,6 @@ MySubmarine.prototype.rotateLeft = function() {
 
     console.log("Rotate Left. Ang: " + this.ang);
 }
-
 MySubmarine.prototype.rotateRight = function() {
     this.ang -= this.ANG_INCREMENT;
 
@@ -198,10 +238,5 @@ MySubmarine.prototype.rotateRight = function() {
         this.ang += 360;
 
     console.log("Rotate Right. Ang: " + this.ang);
-}
-
-/*
-MySubmarine.prototype.setVelocity = function(new_vel) {
-    this.velocity = new_vel;
 }
 */
