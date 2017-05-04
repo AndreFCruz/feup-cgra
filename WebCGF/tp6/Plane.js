@@ -1,6 +1,6 @@
 
 /** Represents a plane with nrDivs divisions along both axis, with center at (0,0) */
-function Plane(scene, nrDivs, imgRatio = 1) {
+function Plane(scene, nrDivs, imgRatio = 1, minS = 0, maxS = 1, minT = 0, maxT = 1) {
 	CGFobject.call(this,scene);
 
 	// nrDivs = 1 if not provided
@@ -10,6 +10,11 @@ function Plane(scene, nrDivs, imgRatio = 1) {
 	this.patchLength = 1.0 / nrDivs;
 
 	this.imgRatio = imgRatio;
+
+    this.minS = minS;
+    this.maxS = maxS;
+    this.minT = minT;
+    this.maxT = maxT;	
 
 	this.initBuffers();
 };
@@ -57,9 +62,9 @@ Plane.prototype.initBuffers = function() {
 			this.normals.push(0,0,1);
 			
 			if (this.imgRatio >= 1)
-				this.texCoords.push( - (not_drawnX / 2) * this.imgRatio + (xCoord + 0.5) * this.imgRatio, (1 - (yCoord + 0.5)));
+				this.texCoords.push( (- (not_drawnX / 2) * this.imgRatio + (xCoord + 0.5) * this.imgRatio) * (this.maxS - this.minS), (1 - (yCoord + 0.5)) * (this.maxT - this.minT));
 			else
-				this.texCoords.push( (xCoord + 0.5), - (not_drawnY / 2) / this.imgRatio + (1 - (yCoord + 0.5)) / this.imgRatio );
+				this.texCoords.push( (xCoord + 0.5) * (this.maxS- this.minS), (- (not_drawnY / 2) / this.imgRatio + (1 - (yCoord + 0.5)) / this.imgRatio) * (this.maxT - this.minT) );
 
 			xCoord += this.patchLength;
 		}

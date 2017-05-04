@@ -36,7 +36,7 @@ LightingScene.prototype.init = function(application) {
 
     // Scene elements
     this.clock = new MyClock(this);
-    this.oceanFloor = new Plane(this, 10, 5);
+    this.oceanFloor = new Plane(this, 100, 1, 0, 5, 0, 5);
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
 
@@ -48,7 +48,8 @@ LightingScene.prototype.init = function(application) {
     this.waterAppearance.setDiffuse(0.4, 0.4, 0.4, 1);
     this.waterAppearance.setSpecular(0.5, 0.3, 0.4, 1);
     this.waterAppearance.setShininess(40)
-    this.waterAppearance.loadTexture("../resources/images/ocean.png");
+    this.waterAppearance.setTextureWrap('MIRRORED_REPEAT', 'MIRRORED_REPEAT');
+    this.waterAppearance.loadTexture("../resources/images/oceanFloor.png");
 
     //Animation
     this.setUpdatePeriod(10);
@@ -76,18 +77,22 @@ LightingScene.prototype.initCameras = function() {
     this.lights[0].setAmbient(0.7, 0.7, 0.4, 1);
     this.lights[0].setDiffuse(0.8, 0.8, 0.8, 1.0);
     this.lights[0].setSpecular(0.6, 0.6, 0.3, 1.0);
+    this.lights[0].setLinearAttenuation(0.01);
 
     this.lights[1].setAmbient(0.9, 0.7, 0.3, 1);
     this.lights[1].setDiffuse(0.8, 0.6, 0.6, 1.0);
-    this.lights[1].setSpecular(0.7, 0.7, 0.3, 1.0);
+    this.lights[1].setSpecular(0.4, 0.4, 0, 1.0);
+    this.lights[1].setLinearAttenuation(0.01);
 
     this.lights[2].setAmbient(0.7, 0.7, 0.7, 1);
     this.lights[2].setDiffuse(0.5, 0.5, 0.5, 1.0);
-    this.lights[2].setSpecular(0.9, 0.5, 0.2, 1.0);
+    this.lights[2].setSpecular(0.5, 0.3, 0, 1.0);
+    this.lights[2].setLinearAttenuation(0.01);
 
     this.lights[3].setAmbient(0.6, 0.6, 0.6, 1);
     this.lights[3].setDiffuse(0.6, 0.6, 0.6, 1.0);
-    this.lights[3].setSpecular(0.6, 0.6, 0.6, 1.0);
+    this.lights[3].setSpecular(0.2, 0.2, 0.2, 1.0);
+    this.lights[3].setLinearAttenuation(0.01);
 }
 ;
 
