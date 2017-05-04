@@ -16,7 +16,7 @@ LightingScene.prototype.init = function(application) {
     this.light_03 = true;
     this.light_04 = true;
     this.pauseClock = false;
-    this.acceleration = 0.5;
+    this.acceleration = 1;
 
     this.deg2rad = Math.PI / 180;
     

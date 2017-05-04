@@ -10,7 +10,7 @@ function MySubmarine(scene) {
 
     this.deg2rad = Math.PI / 180;
 
-    this.MAX_VEL = 6; // max Vel in world units per second
+    this.MAX_VEL = 100; // max Vel in world units per second
     this.velocity = 0;
 
     this.pos_x = 0;
@@ -23,6 +23,7 @@ function MySubmarine(scene) {
 
     this.lastUpdateTime = 0;
 
+    this.dampening_vel = false;
     this.dampening_ang_vel = false;
     this.dampen_constant = 2;
 
@@ -71,6 +72,9 @@ MySubmarine.prototype.update = function(currTime) {
     if (this.dampening_ang_vel)
         this.ang_vel -= (this.ang_vel * this.dampen_constant * 0.001 * deltaTime);
 
+    if (this.dampening_vel)
+        this.velocity -= (this.velocity * this.dampen_constant * 0.1 * 0.001 * deltaTime);
+
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 }
 
@@ -79,7 +83,7 @@ MySubmarine.prototype.display = function() {
     
     this.scene.pushMatrix();
         this.scene.translate(- this.pivot[0], 0, - this.pivot[1]);
-    
+
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
 
@@ -182,18 +186,24 @@ MySubmarine.prototype.display = function() {
     this.scene.popMatrix();
 }
 
-MySubmarine.prototype.moveForward = function() {
+MySubmarine.prototype.movingForward = function() {
+    this.dampening_vel = false;
     this.velocity += this.scene.acceleration;
 
     if (this.velocity > this.MAX_VEL)
         this.velocity = this.MAX_VEL;
 }
 
-MySubmarine.prototype.moveBackward = function() {
+MySubmarine.prototype.movingBackward = function() {
+    this.dampening_vel = false;
     this.velocity -= this.scene.acceleration;
     
     if (this.velocity < - this.MAX_VEL)
         this.velocity = - this.MAX_VEL;
+}
+
+MySubmarine.prototype.dampenVel = function() {
+    this.dampening_vel = true;
 }
 
 MySubmarine.prototype.rotatingLeft = function() {
@@ -218,7 +228,22 @@ MySubmarine.prototype.dampenAngVel = function() {
     this.dampening_ang_vel = true;
 }
 
+
 /*
+MySubmarine.prototype.moveForward = function() {
+    this.velocity += this.scene.acceleration;
+
+    if (this.velocity > this.MAX_VEL)
+        this.velocity = this.MAX_VEL;
+}
+
+MySubmarine.prototype.moveBackward = function() {
+    this.velocity -= this.scene.acceleration;
+    
+    if (this.velocity < - this.MAX_VEL)
+        this.velocity = - this.MAX_VEL;
+}
+
 MySubmarine.prototype.rotateLeft = function() {
     this.ang += this.ANG_INCREMENT;
 

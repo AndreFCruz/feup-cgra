@@ -53,7 +53,7 @@ MyInterface.prototype.init = function(application) {
 	// this.speed=3;
 	// min and max values can be specified as parameters
 	
-	this.gui.add(this.scene, 'acceleration', -1, 1);
+	this.gui.add(this.scene, 'acceleration', -2, 2);
 
 	this.submarine = this.scene.getSubmarine();
 
@@ -74,19 +74,13 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (87):	//W
-		case (119):
-			this.submarine.moveForward();
-			break;
-		
-		case (83):	//S
-		case (115):
-			this.submarine.moveBackward();
-			break;
+
 	};
 };
 
-MyInterface.prototype.processKeyDown = function(event) {	
+MyInterface.prototype.processKeyDown = function(event) {
+	console.log("KEY DOWN");
+	
 	switch (event.keyCode)
 	{
 		case (65):	//A
@@ -99,10 +93,22 @@ MyInterface.prototype.processKeyDown = function(event) {
 			this.submarine.rotatingRight();
 			break;
 
+		case (87):	//W
+		case (119):
+			this.submarine.movingForward();
+			break;
+		
+		case (83):	//S
+		case (115):
+			this.submarine.movingBackward();
+			break;
 	};
 };
 
 MyInterface.prototype.processKeyUp = function(event) {	
+
+	console.log("KEY UP");
+
 	switch (event.keyCode)
 	{
 		case (65):	//A
@@ -111,5 +117,13 @@ MyInterface.prototype.processKeyUp = function(event) {
 		case (100):
 			this.submarine.dampenAngVel();
 			break;
+
+		case (87):	//W
+		case (119):
+		case (83):	//S
+		case (115):
+			this.submarine.dampenVel();
+			break;
+			
 	};
 };
