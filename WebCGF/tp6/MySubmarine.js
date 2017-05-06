@@ -15,6 +15,7 @@ function MySubmarine(scene) {
 
     this.pos_x = 0;
     this.pos_z = 0;
+    this.pos_y = 0.5; // Altitude
 
     this.ang = 98;
     this.ang_vel = 0;
@@ -69,12 +70,13 @@ MySubmarine.prototype.update = function(currTime) {
 
     this.ang += 0.001 * deltaTime * this.ang_vel;
 
+    // Simulate friction -- Dampen velocities
     if (this.dampening_ang_vel)
         this.ang_vel -= (this.ang_vel * this.dampen_constant * 0.001 * deltaTime);
-
     if (this.dampening_vel)
         this.velocity -= (this.velocity * this.dampen_constant * 0.1 * 0.001 * deltaTime);
 
+    // Update pivot's position
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 }
 
@@ -82,7 +84,7 @@ MySubmarine.prototype.display = function() {
     this.scene.materialDefault.apply();
     
     this.scene.pushMatrix();
-        this.scene.translate(- this.pivot[0], 0, - this.pivot[1]);
+        this.scene.translate(- this.pivot[0], this.pos_y, - this.pivot[1]);
 
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);

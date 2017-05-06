@@ -122,7 +122,8 @@ MyInterface.prototype.processKeyUp = function(event) {
 		case (119):
 		case (83):	//S
 		case (115):
-			this.submarine.dampenVel();
+			// Should maintain speed - Uncomment to simulate friction
+			//this.submarine.dampenVel();
 			break;
 			
 	};
