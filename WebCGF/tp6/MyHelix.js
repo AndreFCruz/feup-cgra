@@ -5,6 +5,9 @@
  */
 function MyHelix(scene, slices, stacks, sphereStacks) {
 	CGFobject.call(this,scene);
+
+	// State variables
+	this.ang = Math.PI / 2;
 	
 	//Shapes
 	this.cylinderInside = new MyCylinderWInside(this.scene, slices, stacks);
@@ -18,23 +21,30 @@ MyHelix.prototype.constructor=MyHelix;
 MyHelix.prototype.display = function() {
 	    
 	this.scene.pushMatrix();
-        //this.scene.translate(0.73/2, -0.3, 0.2);
-        //this.scene.scale(0.2, 0.2, 0.2);
         this.cylinderInside.display();
     this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-		this.scene.rotate(45 * this.scene.deg2rad, 0, 0, 1);
+		this.scene.rotate(this.ang, 0, 0, 1);
 		this.scene.translate(0, 0, 0.5);
 		this.scene.scale(1.7, 0.4, 0.3);
 		this.parallelepiped.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-		this.scene.rotate(45 * this.scene.deg2rad, 0, 0, 1);
+		this.scene.rotate(0, 0, 0, 1);
 		this.scene.translate(0, 0, 0.5);
 		this.scene.scale(0.3, 0.3, 0.3);
 		this.semisphere.display();
 	this.scene.popMatrix();
 
+}
+
+MyHelix.prototype.update = function(deltaTime, subVel) {
+	// angular velocity in radians per second
+	var ang_vel = (subVel >= 0 ? 1 : -1) * 2 * Math.PI + subVel;
+
+	this.ang += deltaTime * ang_vel * 0.001;
+
+	console.log("Helix vel: " + ang_vel);
 }

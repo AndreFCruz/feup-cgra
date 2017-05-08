@@ -65,6 +65,9 @@ MySubmarine.prototype.update = function(currTime) {
     var deltaTime = currTime - this.lastUpdateTime;
     this.lastUpdateTime = currTime;
 
+    // Update helix
+    this.helix.update(deltaTime, this.velocity);
+
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
 
