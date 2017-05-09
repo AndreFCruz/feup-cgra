@@ -68,3 +68,20 @@ MyTrapeze.prototype.initBuffers = function() {
     this.initGLBuffers();
 }
 ;
+
+MyTrapeze.prototype.displayWithDir = function(direction) {
+    switch (direction) {
+        case 0:
+            break;
+        case 1:
+            this.scene.rotate(Math.PI / 6, 1, 0, 0);
+            break;
+        case -1:
+            this.scene.rotate(Math.PI / -6, 1, 0, 0);
+            break;
+        default:
+            console.log("Invalid direction for drawing Trapeze");
+    }
+
+    this.display();
+}

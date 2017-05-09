@@ -46,5 +46,5 @@ MyHelix.prototype.update = function(deltaTime, subVel) {
 
 	this.ang += deltaTime * ang_vel * 0.001;
 
-	console.log("Helix vel: " + ang_vel);
+//	console.log("Helix vel: " + ang_vel);
 }

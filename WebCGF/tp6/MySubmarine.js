@@ -24,6 +24,9 @@ function MySubmarine(scene) {
 
     this.lastUpdateTime = 0;
 
+    this.rotating_left = false;
+    this.rotating_right = false;
+
     this.dampening_vel = false;
     this.dampening_ang_vel = false;
     this.dampen_constant = 2;
@@ -166,7 +169,16 @@ MySubmarine.prototype.display = function() {
             this.scene.rotate(-90 * this.scene.deg2rad, 0, 0, 1);
             this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
             this.scene.scale(1, 0.3, 0.2);
-            this.trapezeTail.display();
+            
+            if (this.ang_vel == 0)
+                this.trapezeTail.displayWithDir(0);
+            else if (this.rotating_left)
+                this.trapezeTail.displayWithDir(1);
+            else if (this.rotating_right)
+                this.trapezeTail.displayWithDir(-1);
+            else
+                this.trapezeTail.displayWithDir(0);
+            
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
@@ -209,10 +221,14 @@ MySubmarine.prototype.movingBackward = function() {
 
 MySubmarine.prototype.dampenVel = function() {
     this.dampening_vel = true;
+    this.rotating_left = false;
+    this.rotating_right = false;
 }
 
 MySubmarine.prototype.rotatingLeft = function() {
     this.dampening_ang_vel = false;
+    this.rotating_left = true;
+    this.rotating_right = false;
 
     this.ang_vel += this.ang_accel;
 
@@ -222,6 +238,8 @@ MySubmarine.prototype.rotatingLeft = function() {
 
 MySubmarine.prototype.rotatingRight = function() {
     this.dampening_ang_vel = false;
+    this.rotating_right = true;
+    this.rotating_left = false;
 
     this.ang_vel -= this.ang_accel;
 
@@ -232,41 +250,3 @@ MySubmarine.prototype.rotatingRight = function() {
 MySubmarine.prototype.dampenAngVel = function() {
     this.dampening_ang_vel = true;
 }
-
-
-/*
-MySubmarine.prototype.moveForward = function() {
-    this.velocity += this.scene.acceleration;
-
-    if (this.velocity > this.MAX_VEL)
-        this.velocity = this.MAX_VEL;
-}
-
-MySubmarine.prototype.moveBackward = function() {
-    this.velocity -= this.scene.acceleration;
-    
-    if (this.velocity < - this.MAX_VEL)
-        this.velocity = - this.MAX_VEL;
-}
-
-MySubmarine.prototype.rotateLeft = function() {
-    this.ang += this.ANG_INCREMENT;
-
-    if (this.ang > 360)
-        this.ang -= 360;
-    else if (this.ang < 0)
-        this.ang += 360;
-
-    console.log("Rotate Left. Ang: " + this.ang);
-}
-MySubmarine.prototype.rotateRight = function() {
-    this.ang -= this.ANG_INCREMENT;
-
-    if (this.ang > 360)
-        this.ang -= 360;
-    else if (this.ang < 0)
-        this.ang += 360;
-
-    console.log("Rotate Right. Ang: " + this.ang);
-}
-*/
