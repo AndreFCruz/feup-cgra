@@ -83,12 +83,12 @@ MyInterface.prototype.processKeyDown = function(event) {
 	
 	switch (event.keyCode)
 	{
-		case (65):	//A
+		case (65):	// A
 		case (97):
 			this.submarine.rotatingLeft();
 			break;
 
-		case (68):	//D
+		case (68):	// D
 		case (100):
 			this.submarine.rotatingRight();
 			break;
@@ -103,14 +103,24 @@ MyInterface.prototype.processKeyDown = function(event) {
 			this.submarine.movingUpwards();
 			break;
 
-		case (87):	//W
+		case (87):	// W
 		case (119):
 			this.submarine.movingForward();
 			break;
 		
-		case (83):	//S
+		case (83):	// S
 		case (115):
 			this.submarine.movingBackward();
+			break;
+
+		case (80):	// P
+		case (112):
+			this.submarine.raisePeriscope();
+			break;
+
+		case (76):
+		case (108):
+			this.submarine.lowerPeriscope();
 			break;
 	};
 };

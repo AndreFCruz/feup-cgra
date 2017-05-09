@@ -40,6 +40,12 @@ function MySubmarine(scene) {
 
     this.pivot = [0, 0];
 
+    // Periscope Vars
+    this.MAX_PERISCOPE = 1;
+    this.MIN_PERISCOPE = -0.3;
+    this.periscope_y = 0;
+    this.PERISCOPE_DELTA = 0.1;
+
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
     this.semisphere = new MySemiSphere(this.scene, 12, 6);
@@ -143,7 +149,10 @@ MySubmarine.prototype.display = function() {
             this.circle.display();
         this.scene.popMatrix();
 
-        //Subamrine's Periscope
+        // ** Subamrine's Periscope **
+        this.scene.pushMatrix();
+            this.scene.translate(0, this.periscope_y, 0);
+
         this.scene.pushMatrix();
             this.scene.translate(0, 0, 2.65);
             this.scene.scale(0.10 , 1.65, 0.10);
@@ -169,6 +178,9 @@ MySubmarine.prototype.display = function() {
             this.scene.rotate(180 * this.deg2rad, 0, 1, 0);
             this.circle.display();
         this.scene.popMatrix();
+
+        this.scene.popMatrix();
+        // END OF Periscope
 
         // ** Submarine's 'Fins' **
         // VERTICAL
@@ -203,7 +215,7 @@ MySubmarine.prototype.display = function() {
                 this.trapezeTail.displayWithDir(0);
 
         this.scene.popMatrix();
-        
+
         this.scene.pushMatrix();
             this.scene.translate(0 , 0.8, 2.40);
             this.scene.scale(1, 0.15, 0.25);
@@ -306,4 +318,18 @@ MySubmarine.prototype.movingDownwards = function() {
 MySubmarine.prototype.dampenVerticalVel = function() {
     this.upwards = false;
     this.downwards = false;
+}
+
+MySubmarine.prototype.raisePeriscope = function() {
+    this.periscope_y += this.PERISCOPE_DELTA;
+
+    if (this.periscope_y > this.MAX_PERISCOPE)
+        this.periscope_y = this.MAX_PERISCOPE;
+}
+
+MySubmarine.prototype.lowerPeriscope = function() {
+    this.periscope_y -= this.PERISCOPE_DELTA;
+
+    if (this.periscope_y < this.MIN_PERISCOPE)
+        this.periscope_y = this.MIN_PERISCOPE;
 }
