@@ -93,6 +93,16 @@ MyInterface.prototype.processKeyDown = function(event) {
 			this.submarine.rotatingRight();
 			break;
 
+		case (69):	// E
+		case (101):
+			this.submarine.movingDownwards();
+			break;
+
+		case (81):	// Q
+		case (113):
+			this.submarine.movingUpwards();
+			break;
+
 		case (87):	//W
 		case (119):
 			this.submarine.movingForward();
@@ -116,6 +126,13 @@ MyInterface.prototype.processKeyUp = function(event) {
 		case (68):	//D
 		case (100):
 			this.submarine.dampenAngVel();
+			break;
+
+		case (69):	// E
+		case (101):
+		case (81):	// Q
+		case (113):
+			this.submarine.dampenVerticalVel();
 			break;
 
 		case (87):	//W

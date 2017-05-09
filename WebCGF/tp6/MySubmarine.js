@@ -17,12 +17,19 @@ function MySubmarine(scene) {
     this.pos_z = 0;
     this.pos_y = 0.5; // Altitude
 
+    this.vertical_vel = 0;
+    this.VERT_ACCEL = 0.2;
+    this.MAX_VERT_VEL = 2;
+
     this.ang = 98;
     this.ang_vel = 0;
     this.ang_accel = 20;
     this.MAX_ANG_VEL = 100;
 
     this.lastUpdateTime = 0;
+
+    this.upwards = false;
+    this.downwards = false;
 
     this.rotating_left = false;
     this.rotating_right = false;
@@ -73,6 +80,7 @@ MySubmarine.prototype.update = function(currTime) {
 
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
+    this.pos_y += 0.001 * deltaTime * this.vertical_vel;
 
     this.ang += 0.001 * deltaTime * this.ang_vel;
 
@@ -81,6 +89,10 @@ MySubmarine.prototype.update = function(currTime) {
         this.ang_vel -= (this.ang_vel * this.dampen_constant * 0.001 * deltaTime);
     if (this.dampening_vel)
         this.velocity -= (this.velocity * this.dampen_constant * 0.1 * 0.001 * deltaTime);
+
+    // Vertical friction
+    if (! this.upwards && !this.downwards)
+        this.vertical_vel -= this.vertical_vel * this.dampen_constant * 0.1 * 0.001 * deltaTime;
 
     // Update pivot's position
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
@@ -158,18 +170,13 @@ MySubmarine.prototype.display = function() {
             this.circle.display();
         this.scene.popMatrix();
 
-        //Submarine's 'Fins'
-        this.scene.pushMatrix();
-            this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-            this.scene.scale(1, 0.3, 0.2);
-            this.trapezeTail.display();
-        this.scene.popMatrix();
-
+        // ** Submarine's 'Fins' **
+        // VERTICAL
         this.scene.pushMatrix();
             this.scene.rotate(-90 * this.scene.deg2rad, 0, 0, 1);
             this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
             this.scene.scale(1, 0.3, 0.2);
-            
+
             if (this.ang_vel == 0)
                 this.trapezeTail.displayWithDir(0);
             else if (this.rotating_left)
@@ -181,10 +188,35 @@ MySubmarine.prototype.display = function() {
             
         this.scene.popMatrix();
 
+        // HORIZONTAL
+        this.scene.pushMatrix();
+            this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+            this.scene.scale(1, 0.3, 0.2);
+
+            if (this.vertical_vel == 0)
+                this.trapezeTail.displayWithDir(0);
+            else if (this.upwards)
+                this.trapezeTail.displayWithDir(-1);
+            else if (this.downwards)
+                this.trapezeTail.displayWithDir(1);
+            else
+                this.trapezeTail.displayWithDir(0);
+
+        this.scene.popMatrix();
+        
         this.scene.pushMatrix();
             this.scene.translate(0 , 0.8, 2.40);
             this.scene.scale(1, 0.15, 0.25);
-            this.trapezeTower.display();
+
+            if (this.vertical_vel == 0)
+                this.trapezeTower.displayWithDir(0);
+            else if (this.upwards)
+                this.trapezeTower.displayWithDir(-1);
+            else if (this.downwards)
+                this.trapezeTower.displayWithDir(1);
+            else
+                this.trapezeTower.displayWithDir(0);
+
         this.scene.popMatrix();
 
         //Subamrine's Helix
@@ -221,8 +253,6 @@ MySubmarine.prototype.movingBackward = function() {
 
 MySubmarine.prototype.dampenVel = function() {
     this.dampening_vel = true;
-    this.rotating_left = false;
-    this.rotating_right = false;
 }
 
 MySubmarine.prototype.rotatingLeft = function() {
@@ -249,4 +279,31 @@ MySubmarine.prototype.rotatingRight = function() {
 
 MySubmarine.prototype.dampenAngVel = function() {
     this.dampening_ang_vel = true;
+    this.rotating_left = false;
+    this.rotating_right = false;
+}
+
+MySubmarine.prototype.movingUpwards = function() {
+    this.upwards = true;
+    this.downwards = false;
+
+    this.vertical_vel += this.VERT_ACCEL;
+
+    if (this.vertical_vel > this.MAX_VERT_VEL)
+        this.vertical_vel = this.MAX_VERT_VEL;
+}
+
+MySubmarine.prototype.movingDownwards = function() {
+    this.upwards = false;
+    this.downwards = true;
+
+    this.vertical_vel -= this.VERT_ACCEL;
+
+    if (this.vertical_vel < -this.MAX_VERT_VEL)
+        this.vertical_vel = -this.MAX_VERT_VEL;
+}
+
+MySubmarine.prototype.dampenVerticalVel = function() {
+    this.upwards = false;
+    this.downwards = false;
 }
