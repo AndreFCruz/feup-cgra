@@ -55,6 +55,9 @@ MyInterface.prototype.init = function(application) {
 	
 	this.gui.add(this.scene, 'acceleration', -2, 2);
 
+	//Drop Down Control for Subsmarine Appearance selection
+	this.gui.add(this.scene, 'submarineSkin', ['metallic', 'dangerous', 'abstract']);
+
 	this.submarine = this.scene.getSubmarine();
 
 	return true;

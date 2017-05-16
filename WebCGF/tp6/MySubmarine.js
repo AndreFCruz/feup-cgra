@@ -105,7 +105,6 @@ MySubmarine.prototype.update = function(currTime) {
 }
 
 MySubmarine.prototype.display = function() {
-    this.scene.materialDefault.apply();
     
     this.scene.pushMatrix();
         this.scene.translate(- this.pivot[0], this.pos_y, - this.pivot[1]);

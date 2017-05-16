@@ -17,7 +17,8 @@ LightingScene.prototype.init = function(application) {
     this.light_04 = true;
     this.pauseClock = false;
     this.acceleration = 1;
-
+    this.submarineSkin = 'metallic';
+    
     this.deg2rad = Math.PI / 180;
     
     this.enableTextures(true);
@@ -50,6 +51,31 @@ LightingScene.prototype.init = function(application) {
     this.waterAppearance.setShininess(40)
     this.waterAppearance.setTextureWrap('MIRRORED_REPEAT', 'MIRRORED_REPEAT');
     this.waterAppearance.loadTexture("../resources/images/oceanFloor.png");
+
+    //Submarine Appearances
+    this.submarineAppearances = [];
+
+    //Skin01 - Metallic
+    this.submarineAppearances.push(new CGFappearance(this));
+    this.submarineAppearances[0].loadTexture("../resources/images/skins/skin01.png");
+
+    //Skin02 - Dangerous
+    this.submarineAppearances.push(new CGFappearance(this));
+    this.submarineAppearances[1].loadTexture("../resources/images/skins/skin02.png");
+
+    //Skin03 - Abstract
+    this.submarineAppearances.push(new CGFappearance(this));
+    this.submarineAppearances[2].loadTexture("../resources/images/skins/skin03.png");
+
+    //Submarine's Appearances Dictionary
+    this.submarineAppearanceList = {
+      'metallic'    : 0,
+      'dangerous'   : 1,
+      'abstract'    : 2  
+    };
+
+    //Current Submarine Appearance, update in animation function
+    this.currSubmarineAppearance = this.submarineAppearanceList[this.submarineSkin];
 
     //Animation
     this.setUpdatePeriod(10);
@@ -163,10 +189,10 @@ LightingScene.prototype.display = function() {
     this.popMatrix();
 
     //Submarine
+    this.submarineAppearances[this.currSubmarineAppearance].apply();
     this.submarine.display();
     
     // ---- END Primitive drawing section
-
 }
 ;
 
@@ -174,6 +200,9 @@ LightingScene.prototype.display = function() {
 LightingScene.prototype.update = function(currTime) {
     if (!this.pauseClock)
         this.clock.update(currTime);
+    
+    //Updating the Submarine skin
+    this.currSubmarineAppearance = this.submarineAppearanceList[this.submarineSkin];
 
     this.submarine.update(currTime);    
 };
