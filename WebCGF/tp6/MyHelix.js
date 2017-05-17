@@ -53,5 +53,5 @@ MyHelix.prototype.update = function(deltaTime, subVel) {
 	else if (this.ang < 0)
 		this.ang += Math.PI * 2;
 
-	console.log("-- Vel: " + ang_vel + ". Ang: " + this.ang + " -- ");
+//	console.log("-- Vel: " + ang_vel + ". Ang: " + this.ang + " -- ");
 }

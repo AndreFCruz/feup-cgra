@@ -15,6 +15,11 @@ function MyTrapeze(scene, side1, side2) {
     }
     
     this.initBuffers();
+
+    this.ang = 0;
+    this.MAX_ANG = Math.PI / 4;
+    this.MIN_ANG = Math.PI / -4;
+    this.ANG_VEL = Math.PI; // radians per second
 }
 ;
 MyTrapeze.prototype = Object.create(CGFobject.prototype);
@@ -69,19 +74,33 @@ MyTrapeze.prototype.initBuffers = function() {
 }
 ;
 
-MyTrapeze.prototype.displayWithDir = function(direction) {
-    switch (direction) {
-        case 0:
-            break;
+MyTrapeze.prototype.displayWithDir = function() {
+
+    this.scene.pushMatrix();
+        this.scene.rotate(this.ang, 1, 0, 0);
+        this.display();
+    this.scene.popMatrix();
+}
+
+MyTrapeze.prototype.update = function(deltaTime, rotation) {
+
+    switch (rotation) {
         case 1:
-            this.scene.rotate(Math.PI / 6, 1, 0, 0);
-            break;
         case -1:
-            this.scene.rotate(Math.PI / -6, 1, 0, 0);
+            this.ang += this.ANG_VEL * rotation * deltaTime * 0.001;
+            break;
+        case 0:
+            this.ang -= this.ang * this.ANG_VEL * 2 * deltaTime * 0.001;
             break;
         default:
-            console.log("Invalid direction for drawing Trapeze");
+            console.log("Invalid rotation value in Trapeze");
+            break;
     }
+    
 
-    this.display();
+    if (this.ang > this.MAX_ANG)
+        this.ang = this.MAX_ANG;
+    else if (this.ang < this.MIN_ANG)
+        this.ang = this.MIN_ANG;
+
 }

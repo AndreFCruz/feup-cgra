@@ -44,13 +44,14 @@ function MySubmarine(scene) {
     this.MAX_PERISCOPE = 1;
     this.MIN_PERISCOPE = -0.3;
     this.periscope_y = 0;
-    this.PERISCOPE_DELTA = 0.1;
+    this.PERISCOPE_DELTA = 0.05;
 
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
     this.semisphere = new MySemiSphere(this.scene, 12, 6);
     this.circle = new MyCircle(this.scene, 12);
-    this.trapezeTail = new MyTrapeze(this.scene, 1.64, 2.34);
+    this.trapezeTailVert = new MyTrapeze(this.scene, 1.64, 2.34);
+    this.trapezeTailHorz = new MyTrapeze(this.scene, 1.64, 2.34);
     this.trapezeTower = new MyTrapeze(this.scene, 1.1, 1.42);
     this.helixLeft = new MyHelix(this.scene, 12, 1, 6, false);
     this.helixRight = new MyHelix(this.scene, 12, 1, 6, true);
@@ -81,6 +82,24 @@ MySubmarine.prototype.initBuffers = function() {
 MySubmarine.prototype.update = function(currTime) {
     var deltaTime = currTime - this.lastUpdateTime;
     this.lastUpdateTime = currTime;
+
+    // Update Fins
+    var rotation = 0;
+    if (this.rotating_left) {
+        rotation = 1;
+    } else if (this.rotating_right) {
+        rotation = -1;
+    }
+    this.trapezeTailVert.update(deltaTime, rotation);
+
+    rotation = 0;
+    if (this.downwards) {
+        rotation = 1;
+    } else if (this.upwards) {
+        rotation = -1;
+    }
+    this.trapezeTower.update(deltaTime, rotation);
+    this.trapezeTailHorz.update(deltaTime, rotation);
 
     // Update helix
     this.helixLeft.update(deltaTime, this.velocity);
@@ -190,14 +209,7 @@ MySubmarine.prototype.display = function() {
             this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
             this.scene.scale(1, 0.3, 0.2);
 
-            if (this.ang_vel == 0)
-                this.trapezeTail.displayWithDir(0);
-            else if (this.rotating_left)
-                this.trapezeTail.displayWithDir(1);
-            else if (this.rotating_right)
-                this.trapezeTail.displayWithDir(-1);
-            else
-                this.trapezeTail.displayWithDir(0);
+            this.trapezeTailVert.displayWithDir();
             
         this.scene.popMatrix();
 
@@ -206,14 +218,7 @@ MySubmarine.prototype.display = function() {
             this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
             this.scene.scale(1, 0.3, 0.2);
 
-            if (this.vertical_vel == 0)
-                this.trapezeTail.displayWithDir(0);
-            else if (this.upwards)
-                this.trapezeTail.displayWithDir(-1);
-            else if (this.downwards)
-                this.trapezeTail.displayWithDir(1);
-            else
-                this.trapezeTail.displayWithDir(0);
+            this.trapezeTailHorz.displayWithDir();
 
         this.scene.popMatrix();
 
@@ -221,14 +226,7 @@ MySubmarine.prototype.display = function() {
             this.scene.translate(0 , 0.8, 2.40);
             this.scene.scale(1, 0.15, 0.25);
 
-            if (this.vertical_vel == 0)
-                this.trapezeTower.displayWithDir(0);
-            else if (this.upwards)
-                this.trapezeTower.displayWithDir(-1);
-            else if (this.downwards)
-                this.trapezeTower.displayWithDir(1);
-            else
-                this.trapezeTower.displayWithDir(0);
+            this.trapezeTower.displayWithDir();
 
         this.scene.popMatrix();
 
