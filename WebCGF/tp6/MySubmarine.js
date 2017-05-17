@@ -10,7 +10,7 @@ function MySubmarine(scene) {
 
     this.deg2rad = Math.PI / 180;
 
-    this.MAX_VEL = 100; // max Vel in world units per second
+    this.MAX_VEL = 20; // max Vel in world units per second
     this.velocity = 0;
 
     this.pos_x = 0;
@@ -90,7 +90,7 @@ MySubmarine.prototype.update = function(currTime) {
     } else if (this.rotating_right) {
         rotation = -1;
     }
-    this.trapezeTailVert.update(deltaTime, rotation);
+    this.trapezeTailVert.update(deltaTime, this.velocity == 0 ? 0 : rotation);
 
     rotation = 0;
     if (this.downwards) {
@@ -109,7 +109,7 @@ MySubmarine.prototype.update = function(currTime) {
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
     this.pos_y += 0.001 * deltaTime * this.vertical_vel;
 
-    this.ang += 0.001 * deltaTime * this.ang_vel;
+    this.ang += 0.001 * deltaTime * this.ang_vel * (10 * this.velocity / this.MAX_VEL);
 
     // Simulate friction -- Dampen velocities
     if (this.dampening_ang_vel)
