@@ -3,11 +3,13 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
-function MyHelix(scene, slices, stacks, sphereStacks) {
+function MyHelix(scene, slices, stacks, sphereStacks, positive = true) {
 	CGFobject.call(this,scene);
 
+	this.positive = positive;
+
 	// State variables
-	this.ang = Math.PI / 2;
+	this.ang = Math.PI / 2 * (positive ? 1 : -1);
 	
 	//Shapes
 	this.cylinderInside = new MyCylinderWInside(this.scene, slices, stacks);
@@ -44,7 +46,12 @@ MyHelix.prototype.update = function(deltaTime, subVel) {
 	// angular velocity in radians per second
 	var ang_vel = (subVel >= 0 ? 1 : -1) * 2 * Math.PI + subVel;
 
-	this.ang += deltaTime * ang_vel * 0.001;
+	this.ang += (this.positive ? 1 : -1) * deltaTime * ang_vel * 0.001;
 
-//	console.log("Helix vel: " + ang_vel);
+	if (this.ang > Math.PI * 2)
+		this.ang -= Math.PI * 2;
+	else if (this.ang < 0)
+		this.ang += Math.PI * 2;
+
+	console.log("-- Vel: " + ang_vel + ". Ang: " + this.ang + " -- ");
 }

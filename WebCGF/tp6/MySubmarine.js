@@ -52,7 +52,8 @@ function MySubmarine(scene) {
     this.circle = new MyCircle(this.scene, 12);
     this.trapezeTail = new MyTrapeze(this.scene, 1.64, 2.34);
     this.trapezeTower = new MyTrapeze(this.scene, 1.1, 1.42);
-    this.helix = new MyHelix(this.scene, 12, 1, 6);
+    this.helixLeft = new MyHelix(this.scene, 12, 1, 6, false);
+    this.helixRight = new MyHelix(this.scene, 12, 1, 6, true);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -82,7 +83,8 @@ MySubmarine.prototype.update = function(currTime) {
     this.lastUpdateTime = currTime;
 
     // Update helix
-    this.helix.update(deltaTime, this.velocity);
+    this.helixLeft.update(deltaTime, this.velocity);
+    this.helixRight.update(deltaTime, this.velocity);
 
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
@@ -234,13 +236,13 @@ MySubmarine.prototype.display = function() {
         this.scene.pushMatrix();
             this.scene.translate(0.73/2 + 0.15, -0.3, 0);
             this.scene.scale(0.2, 0.2, 0.2);
-            this.helix.display();
+            this.helixLeft.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.translate(-0.73/2 - 0.15, -0.3, 0);
             this.scene.scale(0.2, 0.2, 0.2);
-            this.helix.display();
+            this.helixRight.display();
         this.scene.popMatrix();
 
     this.scene.popMatrix();
