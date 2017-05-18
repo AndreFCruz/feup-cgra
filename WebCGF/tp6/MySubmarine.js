@@ -233,7 +233,7 @@ MySubmarine.prototype.display = function() {
 
         this.scene.popMatrix();
 
-        //Subamrine's Helix
+        //Submarine's Helix
         this.scene.pushMatrix();
             this.scene.translate(0.73/2 + 0.15, -0.3, 0);
             this.scene.scale(0.2, 0.2, 0.2);
@@ -246,6 +246,7 @@ MySubmarine.prototype.display = function() {
             this.helixRight.display();
         this.scene.popMatrix();
 
+        //Submarine's current torpedo 
         if (this.torpedo != null) {
             this.scene.pushMatrix();
                 this.scene.translate(0, -0.9, 2.04 - 0.5);

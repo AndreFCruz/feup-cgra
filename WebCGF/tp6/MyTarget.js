@@ -42,7 +42,7 @@ MyTarget.prototype.display = function() {
 
     this.scene.pushMatrix();
         
-        //Poisitioning object in the desired position
+        //Poisitioning the object in the desired position
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
 
         if (this.shape) {
