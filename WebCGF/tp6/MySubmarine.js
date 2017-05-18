@@ -46,6 +46,9 @@ function MySubmarine(scene) {
     this.periscope_y = 0;
     this.PERISCOPE_DELTA = 0.05;
 
+    //Torpedo firing Vars
+    this.torpedo = null;
+
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
     this.semisphere = new MySemiSphere(this.scene, 12, 6);
@@ -243,6 +246,13 @@ MySubmarine.prototype.display = function() {
             this.helixRight.display();
         this.scene.popMatrix();
 
+        if (this.torpedo != null) {
+            this.scene.pushMatrix();
+                this.scene.translate(0, -0.9, 2.04 - 0.5);
+                this.torpedo.display();
+            this.scene.popMatrix(); 
+        }
+
     this.scene.popMatrix();
 }
 
@@ -331,4 +341,16 @@ MySubmarine.prototype.lowerPeriscope = function() {
 
     if (this.periscope_y < this.MIN_PERISCOPE)
         this.periscope_y = this.MIN_PERISCOPE;
+}
+
+//Firing a Torpedo associated function
+MySubmarine.prototype.fireTorpedo = function(target) {
+    
+    //If a Torpedo is already being fired, do nothing
+    if (this.torpedo != null)
+        return;
+
+    //Creating and associating a target to the Torpedo
+    this.torpedo = new MyTorpedo(this.scene);
+    this.torpedo.setTarget(this.scene.targets[i]);
 }

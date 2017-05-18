@@ -82,3 +82,7 @@ MyTorpedo.prototype.display = function() {
         this.tailTrapeze.display();
     this.scene.popMatrix();
 };
+
+MyTorpedo.prototype.setTarget = function(target) {
+    this.target = target;
+};

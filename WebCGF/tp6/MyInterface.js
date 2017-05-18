@@ -77,7 +77,10 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-
+		case (70):	// F
+		case (102):
+			this.submarine.fireTorpedo();
+			break;
 	};
 };
 
@@ -121,7 +124,7 @@ MyInterface.prototype.processKeyDown = function(event) {
 			this.submarine.raisePeriscope();
 			break;
 
-		case (76):
+		case (76):	// L
 		case (108):
 			this.submarine.lowerPeriscope();
 			break;
