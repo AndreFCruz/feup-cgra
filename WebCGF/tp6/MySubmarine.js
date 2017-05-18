@@ -47,7 +47,7 @@ function MySubmarine(scene) {
     this.PERISCOPE_DELTA = 0.05;
 
     //Torpedo firing Vars
-    this.torpedo = null;
+    this.torpedos = [];
 
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
@@ -126,6 +126,11 @@ MySubmarine.prototype.update = function(currTime) {
 
     // Update pivot's position
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
+
+    //Updating Subsmarin'es torpedo if there's one
+    if (this.torpedos.length != 0)
+        for (var i = 0; i < this.torpedos.length; ++i)
+            this.torpedos[i].update(deltaTime);
 }
 
 MySubmarine.prototype.display = function() {
@@ -246,16 +251,19 @@ MySubmarine.prototype.display = function() {
             this.helixRight.display();
         this.scene.popMatrix();
 
-        //Submarine's current torpedo 
-        if (this.torpedo != null) {
-            this.scene.pushMatrix();
-                this.scene.translate(0, -0.9, 2.04 - 0.5);
-                this.torpedo.display();
-            this.scene.popMatrix(); 
-        }
-
     this.scene.popMatrix();
-}
+
+    //Submarine's current torpedo 
+    /*if (this.torpedo != null) {
+        this.scene.pushMatrix();
+            this.scene.translate(0, -0.9, 2.04 - 0.5);
+            this.torpedo.display();
+        this.scene.popMatrix();*/ 
+    
+    if (this.torpedos.length != 0)
+        for (var i = 0; i < this.torpedos.length; ++i)
+            this.torpedos[i].display();
+};
 
 MySubmarine.prototype.movingForward = function() {
     this.dampening_vel = false;
@@ -347,11 +355,12 @@ MySubmarine.prototype.lowerPeriscope = function() {
 //Firing a Torpedo associated function
 MySubmarine.prototype.fireTorpedo = function(target) {
     
-    //If a Torpedo is already being fired, do nothing
-    if (this.torpedo != null)
+    //If no targets alive no torpedo is created
+    if (this.scene.currentTarget == this.scene.targets.length)
         return;
 
-    //Creating and associating a target to the Torpedo
-    this.torpedo = new MyTorpedo(this.scene);
-    this.torpedo.setTarget(this.scene.targets[i]);
+    console.log("I want to create a tor\n");
+
+    var sub_pos = [this.pos_x, this.pos_y, this.pos_z];
+    this.torpedos.push(new MyTorpedo(this.scene, sub_pos, this.ang));
 }

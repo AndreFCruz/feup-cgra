@@ -82,7 +82,8 @@ LightingScene.prototype.init = function(application) {
        new MyTarget(this, 10, 1, -6),
        new MyTarget(this, -3, 1, 9)
     ];
-
+    this.currentTarget = 0;
+    
     //Animation
     this.setUpdatePeriod(10);
 }
