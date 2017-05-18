@@ -20,6 +20,7 @@ serialInclude([
 	'MyCylinderWInside.js',
 	'MyHelix.js',
 	'MyTarget.js',
+	'MyTorpedo.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);
