@@ -16,6 +16,10 @@ function MyTrapeze(scene, side1, side2) {
     
     this.initBuffers();
 
+    this.sideRatio = (this.smallSide / this.bigSide);
+    console.log("SideRatio1: " + ((1 - this.sideRatio) / 2) + "\n");
+    console.log("SideRatio2: " +  (1 - ((1 - this.sideRatio) / 2)) + "\n");
+
     this.ang = 0;
     this.MAX_ANG = Math.PI / 4;
     this.MIN_ANG = Math.PI / -4;
@@ -26,34 +30,97 @@ MyTrapeze.prototype = Object.create(CGFobject.prototype);
 MyTrapeze.prototype.constructor = MyTrapeze;
 
 MyTrapeze.prototype.initBuffers = function() {
-    this.vertices = [
+    
+    this.vertices = [   
     //Base Trapeze
         -(this.bigSide / 2), -0.25, 1,
         (this.bigSide / 2), -0.250, 1,
         -(this.smallSide / 2), -0.25, 0,
         (this.smallSide / 2), -0.25, 0,
+    
     //Top Trapeze
         -(this.bigSide / 2), 0.25, 1,
         (this.bigSide / 2), 0.25, 1,
         -(this.smallSide / 2), 0.25, 0,
         (this.smallSide / 2), 0.25, 0,
+
+    //Left Side Rectangle
+        -(this.bigSide / 2), -0.25, 1,
+        -(this.smallSide / 2), -0.25, 0,
+        -(this.bigSide / 2), 0.25, 1,
+        -(this.smallSide / 2), 0.25, 0,
+    
+    //Right Side Rectangle
+        (this.bigSide / 2), -0.250, 1,
+        (this.smallSide / 2), -0.25, 0,
+        (this.bigSide / 2), 0.25, 1,
+        (this.smallSide / 2), 0.25, 0,
+    
+    //Front Side Rectangle
+        -(this.bigSide / 2), -0.25, 1,
+        (this.bigSide / 2), -0.250, 1,
+        -(this.bigSide / 2), 0.25, 1,
+        (this.bigSide / 2), 0.25, 1,
+
+    //Back Side Rectangle
+        -(this.smallSide / 2), -0.25, 0,
+        (this.smallSide / 2), -0.25, 0,
+        -(this.smallSide / 2), 0.25, 0,
+        (this.smallSide / 2), 0.25, 0,
+    ];
+
+    this.texCoords = [
+    //Base Trapeze
+        0, 1,
+        1, 1,
+        0, 0, // change
+        1, 0, // change
+    //Top Trapeze
+        0, 1,
+        1, 1,
+        0, 0, // change
+        1, 0, // change
+    //Left Side Rectangle
+        1, 1,
+        0, 1,
+        1, 0,
+        0, 0,
+    //Right Side Rectangle
+        1, 1,
+        0, 1,
+        1, 0,
+        0, 0,
+    //Front Side Rectangle
+        1, 1,
+        0, 1,
+        1, 0,
+        0, 0,
+    //Back Side Rectangle
+        1, 1,
+        0, 1,
+        1, 0,
+        0, 0,       
     ];
 
     this.indices = [
-    //Trapezes
+    //Base Trapeze
         0, 2, 1,
         3, 1, 2,
+    //Top Trapeze
         4, 5, 6,
         7, 6, 5,
-    //Sides of the 3d Shape, unifying the trapezes
-        0, 1, 4,
-        5, 4, 1,
-        2, 6, 3,
-        6, 7, 3,
-        1, 3, 5,
-        7, 5, 3,
-        0, 4, 2,
-        4, 6, 2,
+    //Left Side Rectangle
+        10, 9, 8,
+        9, 10, 11,
+    //Right Side Rectangle
+        12, 13, 14, 
+        15, 14, 13,
+    //Front Side Rectangle
+        17, 18, 16,
+        18, 17, 19,
+    //Back Side Rectangle
+        20, 22, 21,
+        21, 22, 23,
     ];
     
     this.normals = [
@@ -67,6 +134,26 @@ MyTrapeze.prototype.initBuffers = function() {
         0, 1, 0,
         0, 1, 0,
         0, 1, 0,
+    //Left Side Rectangle Normals
+        -1, 0, 0, //change -> TODO: Need to find the right angle
+        -1, 0, 0,
+        -1, 0, 0,
+        -1, 0, 0,
+    //Right Side Rectangle Normals
+        1, 0, 0, //change -> TODO: Need to find the right angle      
+        1, 0, 0,         
+        1, 0, 0,        
+        1, 0, 0,
+    //Front Side Rectangle Normals
+        0, 0, 1,
+        0, 0, 1,
+        0, 0, 1,
+        0, 0, 1,
+    //Back Side Rectangle Normals
+        0, 0, -1,
+        0, 0, -1,
+        0, 0, -1,
+        0, 0, -1,
     ];
 
     this.primitiveType = this.scene.gl.TRIANGLES;

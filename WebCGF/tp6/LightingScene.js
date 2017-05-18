@@ -166,7 +166,7 @@ LightingScene.prototype.display = function() {
     // ---- BEGIN Primitive drawing section
 
     //Clock's Post
-    this.pushMatrix();
+    /*this.pushMatrix();
         this.translate(8, 0, -0.9);
         this.scale(1, 7, 1);
         this.rotate(-90 * this.deg2rad, 1, 0, 0);
@@ -186,7 +186,7 @@ LightingScene.prototype.display = function() {
         this.rotate(-90 * this.deg2rad, 1, 0, 0);
         this.waterAppearance.apply();
         this.oceanFloor.display();
-    this.popMatrix();
+    this.popMatrix();*/
 
     //Submarine
     this.submarineAppearances[this.currSubmarineAppearance].apply();

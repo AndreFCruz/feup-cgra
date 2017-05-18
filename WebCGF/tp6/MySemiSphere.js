@@ -16,6 +16,7 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 MySemiSphere.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];
+    this.texCoords = [];
 
     var deltaTheta = (Math.PI / 180) * (360 / this.slices);
     var deltaFi = Math.PI / 2 / this.stacks;
@@ -28,6 +29,9 @@ MySemiSphere.prototype.initBuffers = function() {
                 Math.sin(deltaTheta * j) * Math.sin(i * deltaFi),
                 Math.cos(i * deltaFi)];
 
+            this.texCoords.push (Math.cos(deltaTheta * j) * Math.sin(i * deltaFi) / 2 + 0.5,
+                Math.sin(deltaTheta * j) * Math.sin(i * deltaFi) / 2 + 0.5);
+            
             this.vertices = this.vertices.concat(new_vertex);
         }
     }
