@@ -10,7 +10,8 @@ function MySemiSphere(scene, slices, stacks) {
 
     this.initBuffers();
 }
-;MySemiSphere.prototype = Object.create(CGFobject.prototype);
+;
+MySemiSphere.prototype = Object.create(CGFobject.prototype);
 MySemiSphere.prototype.constructor = MySemiSphere;
 
 MySemiSphere.prototype.initBuffers = function() {

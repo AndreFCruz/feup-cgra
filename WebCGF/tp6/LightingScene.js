@@ -77,6 +77,12 @@ LightingScene.prototype.init = function(application) {
     //Current Submarine Appearance, update in animation function
     this.currSubmarineAppearance = this.submarineAppearanceList[this.submarineSkin];
 
+    //List of Targets for Torpedos
+    this.targets = [
+       new MyTarget(this, 10, 1, -6),
+       new MyTarget(this, -3, 1, 9)
+    ];
+
     //Animation
     this.setUpdatePeriod(10);
 }
@@ -191,6 +197,12 @@ LightingScene.prototype.display = function() {
     //Submarine
     this.submarineAppearances[this.currSubmarineAppearance].apply();
     this.submarine.display();
+
+    //Targets
+    this.pushMatrix();
+        for (var i = 0; i < this.targets.length; ++i)
+            this.targets[i].display();
+    this.popMatrix();
     
     // ---- END Primitive drawing section
 }

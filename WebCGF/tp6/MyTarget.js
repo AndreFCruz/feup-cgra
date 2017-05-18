@@ -14,8 +14,8 @@ function MyTarget(scene, positionX, positionY, positionZ) {
     ];
 
     //Shapes
-    this.hemisphere = MySemiSphere(this.scene, 12, 6);
-    this.cube = MyUnitCubeQuad(this.scene);
+    this.hemisphere = new MySemiSphere(this.scene, 12, 6);
+    this.cube = new MyUnitCubeQuad(this.scene);
 
     //If shape is true, uses sphere, instead uses cube
     if (Math.random() >= 0.5)
@@ -43,9 +43,9 @@ MyTarget.prototype.display = function() {
     this.scene.pushMatrix();
         
         //Poisitioning object in the desired position
-        this.scene.translate(position[0], position[1], position[3]);
+        this.scene.translate(this.position[0], this.position[1], this.position[2]);
 
-        if (shape) {
+        if (this.shape) {
             this.scene.pushMatrix();
                 this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
                 this.hemisphere.display();
