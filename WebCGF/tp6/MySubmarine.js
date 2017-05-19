@@ -24,7 +24,7 @@ function MySubmarine(scene) {
     this.ang = 98;
     this.ang_vel = 0;
     this.ang_accel = 20;
-    this.MAX_ANG_VEL = 100;
+    this.MAX_ANG_VEL = 30;
 
     this.lastUpdateTime = 0;
 
