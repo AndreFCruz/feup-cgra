@@ -74,7 +74,10 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     //Modulation the Bezier Curve
     this.P2_DELTA = 6;
     var p1 = [this.position[0], this.position[1] - this.PREPARING_LENGTH, this.position[2]];
-    var p2 = [this.position[0] + this.P2_DELTA * Math.sin(this.phi_ang), this.position[1] - this.PREPARING_LENGTH, this.position[2] + this.P2_DELTA * Math.cos(this.phi_ang)];
+    var p2 = [this.position[0] + this.P2_DELTA * Math.cos(this.phi_ang),
+              this.position[1] - this.PREPARING_LENGTH,
+              this.position[2] + this.P2_DELTA * Math.sin(this.phi_ang)];
+              // Warning: switched sin/cos based on x/z relations
     var p3 = [this.target.position[0], this.target.position[1] + 3, this.target.position[2]];
     
     this.bezier = new MyBezier(p1, p2, p3, this.target.position);
