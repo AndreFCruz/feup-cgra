@@ -28,6 +28,9 @@ function MyBezier(point1, point2, point3, point4) {
 
 MyBezier.prototype.calcPosition = function(t) {
 
+    if (t < 0 || t > 1)
+        console.log("Invalid t parameter to Bezier curve");
+
     return [
         (1 - t*t*t) * this.p1[0] + 3*t*(1-t)*(1-t) * this.p2[0] + 3*t*t*(1-t) * this.p3[0] + t*t*t * this.p4[0],
         (1 - t*t*t) * this.p1[1] + 3*t*(1-t)*(1-t) * this.p2[1] + 3*t*t*(1-t) * this.p3[1] + t*t*t * this.p4[1],
