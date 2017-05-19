@@ -93,7 +93,7 @@ MyTorpedo.prototype.display = function() {
 
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
         this.scene.rotate(this.phi_ang, 0, 1, 0);
-        this.scene.rotate(this.theta_ang, 0, 0, 1);
+        this.scene.rotate(this.theta_ang, 1, 0, 0);
 
         //Main Body
         this.scene.pushMatrix();
@@ -205,13 +205,8 @@ MyTorpedo.prototype.setOrientation = function(old_position) {
     var ro = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2));
     var projection = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2));
     
-    //this.theta_ang = (Math.PI / 2) - Math.acos(this.orientation[1] / ro);
-    this.theta_ang = Math.asin(this.orientation[1] / ro);
-    //this.phi_ang = Math.acos(this.orientation[2] / projection);
+    this.theta_ang = -Math.asin(this.orientation[1] / ro);
     this.phi_ang = Math.acos(this.orientation[2] / projection);
-    
-    //this.phi_ang = Math.atan(this.orientation[1] / Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2)));
-    //this.theta_ang = Math.atan()
 };
 
 MyTorpedo.prototype.wasDestroyed = function() {
