@@ -22,6 +22,11 @@ function MyExplosion(scene, pos, velocity) {
     this.explosionRadius = 0;
     //this.explosion = new MyExplosion(this.scene, position);
 
+    //MACRO's for Design
+    this.MAIN_SIZE = 1;
+    this.MEDIUM_SIZE = 0.7;
+    this.SMALL_SIZE = 0.4;
+
     //Explosion's Update
     //TODO
 };
@@ -30,9 +35,91 @@ MyExplosion.prototype = Object.create(CGFobject.prototype);
 MyExplosion.prototype.constructor = MyExplosion;
 
 MyExplosion.prototype.display = function() {
-    //Esfera grande no meia com esferas pequenas a volta - todas elas com a sua textura aplicada
+    
+    this.scene.pushMatrix();
+
+        //this.scene.scale(this.explosionRadius, this.explosionRadius, this.explosionRadius);
+
+        //Main Explosion Body
+        this.scene.pushMatrix();
+            this.scene.scale(this.MAIN_SIZE, this.MAIN_SIZE, this.MAIN_SIZE);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+        //Side Bodies
+        this.scene.pushMatrix();
+            this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
+            this.scene.translate(this.MEDIUM_SIZE *  3 / 4, this.MEDIUM_SIZE * 3 / 4, 0);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
+            this.scene.translate(-this.MEDIUM_SIZE / 3, -this.MAIN_SIZE/2, -this.MAIN_SIZE / 2);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
+            this.scene.translate(0, -this.MAIN_SIZE * 3 / 4, 0);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
+            this.scene.translate(0, this.MAIN_SIZE / 3, this.MAIN_SIZE * 3 / 4);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+            this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
+            this.scene.translate(-this.MAIN_SIZE / 2, this.MAIN_SIZE / 3, -this.MAIN_SIZE/ 4);
+
+            this.scene.pushMatrix();
+                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+                this.hemisphere.display();
+            this.scene.popMatrix();  
+
+            this.hemisphere.display(); 
+        this.scene.popMatrix();
+
+    this.scene.popMatrix();
 };
 
 MyExplosion.prototype.update = function(deltaTime) {
 
 };
+
+MyExplosion.prototype.getRadius = function() {
+    return this.explosionRadius;
+}

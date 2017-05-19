@@ -15,13 +15,14 @@ function MyTarget(scene, positionX, positionY, positionZ) {
 
     //Shapes
     this.hemisphere = new MySemiSphere(this.scene, 12, 6);
-    this.cube = new MyUnitCubeQuad(this.scene);
 
-    //If shape is true, uses sphere, instead uses cube
-    if (Math.random() >= 0.5)
-        this.shape = true;
-    else
-        this.shape = false;
+    //MACROS
+    this.TARGET_SIZE = 0.6;
+    this.ANG_VELOCITY = 1;
+
+    //Animation
+    this.rotation_ang = 0;
+    this.lastUpdateTime = 0;
 
     //Target Materials
     this.targetAppearance = new CGFappearance(this.scene);
@@ -44,17 +45,22 @@ MyTarget.prototype.display = function() {
         
         //Poisitioning the object in the desired position
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
+        this.scene.rotate(this.rotation_ang, 0, 1, 0);
+        this.scene.scale(this.TARGET_SIZE, this.TARGET_SIZE, this.TARGET_SIZE);
 
-        if (this.shape) {
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
+        this.scene.pushMatrix();
+            this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+            this.hemisphere.display();
+        this.scene.popMatrix();  
 
-            this.hemisphere.display(); 
-
-        } else
-            this.cube.display();
+        this.hemisphere.display(); 
 
     this.scene.popMatrix();
+};
+
+MyTarget.prototype.update = function(currTime) {
+    var deltaTime = currTime - this.lastUpdateTime;
+    this.lastUpdateTime = currTime;
+
+    this.rotation_ang += 0.001 * deltaTime * this.ANG_VELOCITY;  
 };

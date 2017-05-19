@@ -40,6 +40,8 @@ LightingScene.prototype.init = function(application) {
     this.oceanFloor = new Plane(this, 100, 1, 0, 5, 0, 5);
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
+    var pos = [0,0,0,];
+    this.explosion = new MyExplosion(this, pos, 1);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -205,6 +207,9 @@ LightingScene.prototype.display = function() {
             this.targets[i].display();
     this.popMatrix();
     
+
+    //this.explosion.display();
+    
     // ---- END Primitive drawing section
 }
 ;
@@ -217,7 +222,11 @@ LightingScene.prototype.update = function(currTime) {
     //Updating the Submarine skin
     this.currSubmarineAppearance = this.submarineAppearanceList[this.submarineSkin];
 
-    this.submarine.update(currTime);    
+    this.submarine.update(currTime); 
+
+    for (var i = 0; i < this.targets.length; ++i) {
+        this.targets[i].update(currTime);
+    }   
 };
 
 LightingScene.prototype.doSomething = function () { 

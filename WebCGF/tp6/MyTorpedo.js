@@ -154,7 +154,6 @@ MyTorpedo.prototype.update = function(deltaTime) {
         case this.animationStatus.EXPLOSION:
             if (this.explosion == null)
                 this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY)
-            //this.explosionRadius += (deltaTime * 0.001) * this.EXPLOSION_VEOLOCITY;
             this.explosion.update(deltaTime);
             this.updateStatus(this.animationCurrentStatus, old_position);
             break;
@@ -178,7 +177,7 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
             break;
 
         case (this.animationStatus.EXPLOSION):
-            //if (this.explosion.getRadius >= this.EXPLOSION_MAX_RADIUS)
+            if (this.explosion.getRadius >= this.EXPLOSION_MAX_RADIUS)
                 this.animationCurrentStatus = this.animationStatus.INIVISIBLE;
             break;  
     }

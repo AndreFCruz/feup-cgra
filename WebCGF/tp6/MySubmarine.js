@@ -181,31 +181,31 @@ MySubmarine.prototype.display = function() {
         this.scene.pushMatrix();
             this.scene.translate(0, this.periscope_y, 0);
 
-        this.scene.pushMatrix();
-            this.scene.translate(0, 0, 2.65);
-            this.scene.scale(0.10 , 1.65, 0.10);
-            this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
-            this.cylinder.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+                this.scene.translate(0, 0, 2.65);
+                this.scene.scale(0.10 , 1.65, 0.10);
+                this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+                this.cylinder.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-            this.scene.translate(0, 1.65, 2.55);
-            this.scene.scale(0.10 , 0.10, 0.30);
-            this.cylinder.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+                this.scene.translate(0, 1.65, 2.55);
+                this.scene.scale(0.10 , 0.10, 0.30);
+                this.cylinder.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-            this.scene.translate(0, 1.65, 2.85);
-            this.scene.scale(0.10 , 0.10, 1);
-            this.circle.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+                this.scene.translate(0, 1.65, 2.85);
+                this.scene.scale(0.10 , 0.10, 1);
+                this.circle.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-            this.scene.translate(0, 1.65, 2.55);
-            this.scene.scale(0.10 , 0.10, 1);
-            this.scene.rotate(180 * this.deg2rad, 0, 1, 0);
-            this.circle.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+                this.scene.translate(0, 1.65, 2.55);
+                this.scene.scale(0.10 , 0.10, 1);
+                this.scene.rotate(180 * this.deg2rad, 0, 1, 0);
+                this.circle.display();
+            this.scene.popMatrix();
 
         this.scene.popMatrix();
         // END OF Periscope
@@ -252,13 +252,6 @@ MySubmarine.prototype.display = function() {
         this.scene.popMatrix();
 
     this.scene.popMatrix();
-
-    //Submarine's current torpedo 
-    /*if (this.torpedo != null) {
-        this.scene.pushMatrix();
-            this.scene.translate(0, -0.9, 2.04 - 0.5);
-            this.torpedo.display();
-        this.scene.popMatrix();*/ 
     
     if (this.torpedos.length != 0)
         for (var i = 0; i < this.torpedos.length; ++i)
