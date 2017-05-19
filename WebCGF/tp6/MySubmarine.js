@@ -358,9 +358,9 @@ MySubmarine.prototype.fireTorpedo = function(target) {
     //If no targets alive no torpedo is created
     if (this.scene.currentTarget == this.scene.targets.length)
         return;
-
-    console.log("I want to create a tor\n");
-
+    
+    //Current submarine position as an array
     var sub_pos = [this.pos_x, this.pos_y, this.pos_z];
-    this.torpedos.push(new MyTorpedo(this.scene, sub_pos, this.ang));
+
+    this.torpedos.push(new MyTorpedo(this.scene, sub_pos, this.ang, this.scene.targets[this.scene.currentTarget++]));
 }
