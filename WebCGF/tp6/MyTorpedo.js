@@ -60,6 +60,11 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
 
     this.PREPARING_LENGTH = 0.8;
     this.EXPLOSION_MAX_RADIUS = 4;
+    this.EXPLOSION_VELOCITY = 2;
+
+    //Radius of the current explosion
+    this.explosionRadius = 0;
+    this.explosion = null;
 
     //Torpedo's Update
     this.t = 0; //Parameter for Bezier function
@@ -82,7 +87,7 @@ MyTorpedo.prototype = Object.create(CGFobject.prototype);
 MyTorpedo.prototype.constructor = MyTorpedo;
 
 MyTorpedo.prototype.display = function() {
-
+    
     this.scene.pushMatrix();
 
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
@@ -147,7 +152,10 @@ MyTorpedo.prototype.update = function(deltaTime) {
             break;
 
         case this.animationStatus.EXPLOSION:
-            //this.
+            if (this.explosion == null)
+                this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY)
+            //this.explosionRadius += (deltaTime * 0.001) * this.EXPLOSION_VEOLOCITY;
+            this.explosion.update(deltaTime);
             this.updateStatus(this.animationCurrentStatus, old_position);
             break;
     }
@@ -161,8 +169,6 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
         case this.animationStatus.PREPARING:
             if (this.init_pos[1] - this.PREPARING_LENGTH >= this.position[1])
                 this.animationCurrentStatus = this.animationStatus.MOVEMENT;
-            console.log("this: " + this.init_pos[1] - this.PREPARING_LENGTH);
-            console.log("thdaedis: " + this.position[1]);
             break;
             
         case (this.animationStatus.MOVEMENT):
@@ -172,7 +178,7 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
             break;
 
         case (this.animationStatus.EXPLOSION):
-            if (this.explosionRadius > this.EXPLOSION_MAX_RADIUS)
+            //if (this.explosion.getRadius >= this.EXPLOSION_MAX_RADIUS)
                 this.animationCurrentStatus = this.animationStatus.INIVISIBLE;
             break;  
     }
