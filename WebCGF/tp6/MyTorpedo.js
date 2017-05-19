@@ -13,6 +13,13 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
         sub_pos[2],
     ];
 
+    //Array containting the Initial Position
+    this.init_pos = [
+        sub_pos[0],
+        sub_pos[1],
+        sub_pos[2],
+    ];
+
     //Polar angle θ (theta)
     this.theta_ang = 0;
     
@@ -30,12 +37,6 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
                                     Math.pow(this.position[1] - this.target.position[1], 2) + 
                                     Math.pow(this.position[2] - this.target.position[2], 2));
 
-    //Modulation the Bezier Curve
-    var p2 = [this.position[0] + 6 * Math.sin(this.phi_ang), 0, this.position[2] + 6 * Math.cos(this.phi_ang)];
-    var p3 = [this.target.position[0], this.target.position[1], this.target.position[2] + 3];
-    
-    this.bezier = new MyBezier(this.position, p2, p3, this.target.position);
-
     //Shapes
     this.hemisphere = new MySemiSphere(this.scene, 12, 6);
     this.cylinder = new MyCylinder(this.scene, 12, 6);
@@ -49,11 +50,28 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.TRAPEZE_THICKNESS = 0.08;
 
     //Torpedo's Animation
-    this.velocity = 1;
-    
+    this.animationStatus = {
+        PREPARING: 0,
+        MOVEMENT:  1,
+        EXPLOSION: 2,
+        INVISIBLE: 3,
+    }
+    this.animationCurrentStatus = this.animationStatus.PREPARING;
+
+    this.PREPARING_LENGTH = 0.8;
+    this.EXPLOSION_MAX_RADIUS = 4;
+
+    //Torpedo's Update
     this.t = 0; //Parameter for Bezier function
-    
+    this.velocity = 1;
     this.delta_t = this.targetDistance / this.velocity;
+
+    //Modulation the Bezier Curve
+    var p1 = [this.position[0], this.position[1] - this.PREPARING_LENGTH, this.position[2]];
+    var p2 = [this.position[0] + 6 * Math.sin(this.phi_ang), this.position[1] - this.PREPARING_LENGTH, this.position[2] + 6 * Math.cos(this.phi_ang)];
+    var p3 = [this.target.position[0], this.target.position[1] + 3, this.target.position[2]];
+    
+    this.bezier = new MyBezier(p1, p2, p3, this.target.position);
 
     //Torpedo Materials
     //TODO
@@ -70,7 +88,6 @@ MyTorpedo.prototype.display = function() {
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
         this.scene.rotate(this.phi_ang, 0, 1, 0);
         this.scene.rotate(this.theta_ang, 0, 0, 1);
-        console.log("GOD PLZ " + this.theta_ang);
 
         //Main Body
         this.scene.pushMatrix();
@@ -113,13 +130,56 @@ MyTorpedo.prototype.display = function() {
 };
 
 MyTorpedo.prototype.update = function(deltaTime) {
-    
-    var old_position = this.position;
 
-    if (this.t <= 1) {
-        this.t = this.t + (deltaTime * 0.001) / this.delta_t;
-        this.position = this.bezier.calcPosition(this.t);
+    var old_position = this.position;
+    
+    switch(this.animationCurrentStatus) {
+
+        case this.animationStatus.PREPARING:
+            this.position[1] -= (deltaTime * 0.001) * this.velocity;
+            this.updateStatus(this.animationCurrentStatus, old_position);
+            break;
+
+        case this.animationStatus.MOVEMENT:
+            this.t = this.t + (deltaTime * 0.001) / this.delta_t;
+            this.position = this.bezier.calcPosition(this.t);
+            this.updateStatus(this.animationCurrentStatus, old_position);
+            break;
+
+        case this.animationStatus.EXPLOSION:
+            //this.
+            this.updateStatus(this.animationCurrentStatus, old_position);
+            break;
     }
+};
+
+
+MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
+    
+    switch (currentStatus) {
+       
+        case this.animationStatus.PREPARING:
+            if (this.init_pos[1] - this.PREPARING_LENGTH >= this.position[1])
+                this.animationCurrentStatus = this.animationStatus.MOVEMENT;
+            console.log("this: " + this.init_pos[1] - this.PREPARING_LENGTH);
+            console.log("thdaedis: " + this.position[1]);
+            break;
+            
+        case (this.animationStatus.MOVEMENT):
+            this.setOrientation(old_position);
+            if (this.t >= 1)
+                this.animationCurrentStatus = this.animationStatus.EXPLOSION;
+            break;
+
+        case (this.animationStatus.EXPLOSION):
+            if (this.explosionRadius > this.EXPLOSION_MAX_RADIUS)
+                this.animationCurrentStatus = this.animationStatus.INIVISIBLE;
+            break;  
+    }
+};
+
+
+MyTorpedo.prototype.setOrientation = function(old_position) { 
     
     this.orientation = [this.position[0] - old_position[0],
                       this.position[1] - old_position[1],
@@ -136,6 +196,5 @@ MyTorpedo.prototype.update = function(deltaTime) {
     
     //this.phi_ang = Math.atan(this.orientation[1] / Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2)));
     //this.theta_ang = Math.atan()
-
-
 };
+
