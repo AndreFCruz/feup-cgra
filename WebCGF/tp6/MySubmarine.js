@@ -24,7 +24,7 @@ function MySubmarine(scene) {
     this.ang = 98;
     this.ang_vel = 0;
     this.ang_accel = 20;
-    this.MAX_ANG_VEL = 40;
+    this.MAX_ANG_VEL = 100;
 
     this.lastUpdateTime = 0;
 
@@ -112,7 +112,7 @@ MySubmarine.prototype.update = function(currTime) {
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
     this.pos_y += 0.001 * deltaTime * this.vertical_vel;
 
-    this.ang += 0.001 * deltaTime * this.ang_vel /* * (10 * this.velocity / this.MAX_VEL) */;
+    this.ang += 0.001 * deltaTime * this.ang_vel * (10 * this.velocity / this.MAX_VEL);
 
     // Simulate friction -- Dampen velocities
     if (this.dampening_ang_vel)
