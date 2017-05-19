@@ -24,6 +24,8 @@ function MyTarget(scene, positionX, positionY, positionZ) {
     this.rotation_ang = 0;
     this.lastUpdateTime = 0;
 
+    this.destroyed = false;
+
     //Target Materials
     this.targetAppearance = new CGFappearance(this.scene);
     this.targetAppearance.setAmbient(0.8, 0.8, 0.8, 1);
@@ -63,4 +65,12 @@ MyTarget.prototype.update = function(currTime) {
     this.lastUpdateTime = currTime;
 
     this.rotation_ang += 0.001 * deltaTime * this.ANG_VELOCITY;  
+};
+
+MyTarget.prototype.setDestroyed = function () {
+    this.destroyed = true;  
+};
+
+MyTarget.prototype.getStatus = function () {
+    return this.destroyed;  
 };

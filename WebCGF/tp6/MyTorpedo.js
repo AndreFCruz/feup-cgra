@@ -54,13 +54,13 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
         PREPARING: 0,
         MOVEMENT:  1,
         EXPLOSION: 2,
-        INVISIBLE: 3,
+        INVISIBLE: -1,
     }
     this.animationCurrentStatus = this.animationStatus.PREPARING;
 
     this.PREPARING_LENGTH = 0.8;
-    this.EXPLOSION_MAX_RADIUS = 4;
-    this.EXPLOSION_VELOCITY = 2;
+    this.EXPLOSION_MAX_RADIUS = 1.8;
+    this.EXPLOSION_VELOCITY = 3.5;
 
     //Radius of the current explosion
     this.explosionRadius = 0;
@@ -132,6 +132,10 @@ MyTorpedo.prototype.display = function() {
         this.scene.popMatrix();
 
     this.scene.popMatrix();
+
+    //Explosion
+    if (this.explosion != null)
+        this.explosion.display();
 };
 
 MyTorpedo.prototype.update = function(deltaTime) {
@@ -153,10 +157,13 @@ MyTorpedo.prototype.update = function(deltaTime) {
 
         case this.animationStatus.EXPLOSION:
             if (this.explosion == null)
-                this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY)
+                this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY);
             this.explosion.update(deltaTime);
             this.updateStatus(this.animationCurrentStatus, old_position);
             break;
+
+        case this.animationStatus.INVISIBLE:
+            this.explosion = null;
     }
 };
 
@@ -177,9 +184,11 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
             break;
 
         case (this.animationStatus.EXPLOSION):
-            if (this.explosion.getRadius >= this.EXPLOSION_MAX_RADIUS)
-                this.animationCurrentStatus = this.animationStatus.INIVISIBLE;
-            break;  
+            if (this.explosion.getRadius() >= this.EXPLOSION_MAX_RADIUS) {
+                this.animationCurrentStatus = this.animationStatus.INVISIBLE;               
+                this.target.setDestroyed();
+            }
+            break;
     }
 };
 
@@ -203,3 +212,11 @@ MyTorpedo.prototype.setOrientation = function(old_position) {
     //this.theta_ang = Math.atan()
 };
 
+MyTorpedo.prototype.wasDestroyed = function() {
+    
+    if (this.animationCurrentStatus == this.animationStatus.INVISIBLE && this.target) {
+        return true;
+    }
+    else
+        return false;
+};

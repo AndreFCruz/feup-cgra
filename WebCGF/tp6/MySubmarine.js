@@ -24,7 +24,7 @@ function MySubmarine(scene) {
     this.ang = 98;
     this.ang_vel = 0;
     this.ang_accel = 20;
-    this.MAX_ANG_VEL = 30;
+    this.MAX_ANG_VEL = 100;
 
     this.lastUpdateTime = 0;
 
@@ -128,9 +128,7 @@ MySubmarine.prototype.update = function(currTime) {
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 
     //Updating Subsmarin'es torpedo if there's one
-    if (this.torpedos.length != 0)
-        for (var i = 0; i < this.torpedos.length; ++i)
-            this.torpedos[i].update(deltaTime);
+    this.updateTorpedos(deltaTime);
 }
 
 MySubmarine.prototype.display = function() {
@@ -253,8 +251,7 @@ MySubmarine.prototype.display = function() {
 
     this.scene.popMatrix();
     
-    if (this.torpedos.length != 0)
-        for (var i = 0; i < this.torpedos.length; ++i)
+    for (var i = 0; i < this.torpedos.length; ++i)
             this.torpedos[i].display();
 };
 
@@ -356,4 +353,14 @@ MySubmarine.prototype.fireTorpedo = function(target) {
     var sub_pos = [this.pos_x, this.pos_y, this.pos_z];
 
     this.torpedos.push(new MyTorpedo(this.scene, sub_pos, this.ang, this.scene.targets[this.scene.currentTarget++]));
-}
+};
+
+MySubmarine.prototype.updateTorpedos = function(deltaTime) {
+
+    for (var i = 0; i < this.torpedos.length; ++i) {
+        if (this.torpedos[i].wasDestroyed())
+            this.torpedos.splice(i, 1);
+        else
+            this.torpedos[i].update(deltaTime);
+    }
+};

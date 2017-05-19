@@ -224,9 +224,7 @@ LightingScene.prototype.update = function(currTime) {
 
     this.submarine.update(currTime); 
 
-    for (var i = 0; i < this.targets.length; ++i) {
-        this.targets[i].update(currTime);
-    }   
+    this.updateTargets(currTime);   
 };
 
 LightingScene.prototype.doSomething = function () { 
@@ -255,4 +253,18 @@ LightingScene.prototype.lightsCheck = function () {
 LightingScene.prototype.getSubmarine = function () { 
     console.log("Scene's getSubmarine called");
     return this.submarine;
+};
+
+LightingScene.prototype.updateTargets = function (currTime) {
+
+    for (var i = 0; i < this.targets.length; ++i) {
+        //If target is destroyed, erase it from targets array
+        if (this.targets[i].getStatus()) {
+            this.targets.splice(i, 1);
+            this.currentTarget--;
+        }
+        else
+            this.targets[i].update(currTime);
+    }
+    
 };

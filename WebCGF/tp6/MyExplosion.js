@@ -29,16 +29,27 @@ function MyExplosion(scene, pos, velocity) {
 
     //Explosion's Update
     //TODO
+
+    //Explosion Texture
+    this.explosionAppearance = new CGFappearance(this.scene);
+    this.explosionAppearance.setAmbient(1, 1, 1, 1);
+    this.explosionAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+    this.explosionAppearance.setSpecular(0.4, 0.4, 0.4, 1);
+    this.explosionAppearance.setShininess(70);
+    this.explosionAppearance.loadTexture("../resources/images/explosion.png");
 };
 
 MyExplosion.prototype = Object.create(CGFobject.prototype);
 MyExplosion.prototype.constructor = MyExplosion;
 
 MyExplosion.prototype.display = function() {
+
+    this.explosionAppearance.apply();
     
     this.scene.pushMatrix();
 
-        //this.scene.scale(this.explosionRadius, this.explosionRadius, this.explosionRadius);
+        this.scene.translate(this.position[0], this.position[1], this.position[2]);
+        this.scene.scale(this.explosionRadius, this.explosionRadius, this.explosionRadius);
 
         //Main Explosion Body
         this.scene.pushMatrix();
@@ -117,9 +128,9 @@ MyExplosion.prototype.display = function() {
 };
 
 MyExplosion.prototype.update = function(deltaTime) {
-
+    this.explosionRadius += deltaTime * 0.001 * this.velocity;
 };
 
 MyExplosion.prototype.getRadius = function() {
     return this.explosionRadius;
-}
+};
