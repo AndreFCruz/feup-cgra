@@ -46,6 +46,9 @@ function MySubmarine(scene) {
     this.periscope_y = 0;
     this.PERISCOPE_DELTA = 0.05;
 
+    //Torpedo firing Vars
+    this.torpedos = [];
+
     // Shapes
     this.cylinder = new MyCylinder(this.scene, 12, 1);
     this.semisphere = new MySemiSphere(this.scene, 12, 6);
@@ -123,6 +126,11 @@ MySubmarine.prototype.update = function(currTime) {
 
     // Update pivot's position
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
+
+    //Updating Subsmarin'es torpedo if there's one
+    if (this.torpedos.length != 0)
+        for (var i = 0; i < this.torpedos.length; ++i)
+            this.torpedos[i].update(deltaTime);
 }
 
 MySubmarine.prototype.display = function() {
@@ -230,7 +238,7 @@ MySubmarine.prototype.display = function() {
 
         this.scene.popMatrix();
 
-        //Subamrine's Helix
+        //Submarine's Helix
         this.scene.pushMatrix();
             this.scene.translate(0.73/2 + 0.15, -0.3, 0);
             this.scene.scale(0.2, 0.2, 0.2);
@@ -244,7 +252,18 @@ MySubmarine.prototype.display = function() {
         this.scene.popMatrix();
 
     this.scene.popMatrix();
-}
+
+    //Submarine's current torpedo 
+    /*if (this.torpedo != null) {
+        this.scene.pushMatrix();
+            this.scene.translate(0, -0.9, 2.04 - 0.5);
+            this.torpedo.display();
+        this.scene.popMatrix();*/ 
+    
+    if (this.torpedos.length != 0)
+        for (var i = 0; i < this.torpedos.length; ++i)
+            this.torpedos[i].display();
+};
 
 MySubmarine.prototype.movingForward = function() {
     this.dampening_vel = false;
@@ -331,4 +350,17 @@ MySubmarine.prototype.lowerPeriscope = function() {
 
     if (this.periscope_y < this.MIN_PERISCOPE)
         this.periscope_y = this.MIN_PERISCOPE;
+}
+
+//Firing a Torpedo associated function
+MySubmarine.prototype.fireTorpedo = function(target) {
+    
+    //If no targets alive no torpedo is created
+    if (this.scene.currentTarget == this.scene.targets.length)
+        return;
+    
+    //Current submarine position as an array
+    var sub_pos = [this.pos_x, this.pos_y, this.pos_z];
+
+    this.torpedos.push(new MyTorpedo(this.scene, sub_pos, this.ang, this.scene.targets[this.scene.currentTarget++]));
 }
