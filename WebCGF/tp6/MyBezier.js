@@ -11,7 +11,7 @@ function MyBezier(point1, point2, point3, point4) {
 
     this.diffP1 = this.pointDiff(point2, point1, 4);
     this.diffP2 = this.pointDiff(point3, point2, 4);
-    this.diffP3 = this.pointDiff(point3, point3, 4);
+    this.diffP3 = this.pointDiff(point4, point3, 4);
 };
 
 MyBezier.prototype.pointDiff = function(p1, p2, scale = 1) {
