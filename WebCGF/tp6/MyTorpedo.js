@@ -140,28 +140,26 @@ MyTorpedo.prototype.display = function() {
 };
 
 MyTorpedo.prototype.update = function(deltaTime) {
-
-    var old_position = this.position;
     
     switch(this.animationCurrentStatus) {
 
         case this.animationStatus.PREPARING:
             this.position[1] -= (deltaTime * 0.001) * this.velocity;
-            this.updateStatus(this.animationCurrentStatus, old_position);
+            this.updateStatus();
             console.log("preparing torpedo");
             break;
 
         case this.animationStatus.MOVEMENT:
             this.t = this.t + (deltaTime * 0.001) / this.delta_t;
             this.position = this.bezier.calcPosition(this.t);
-            this.updateStatus(this.animationCurrentStatus, old_position);
+            this.updateStatus();
             break;
 
         case this.animationStatus.EXPLOSION:
             if (this.explosion == null)
                 this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY);
             this.explosion.update(deltaTime);
-            this.updateStatus(this.animationCurrentStatus, old_position);
+            this.updateStatus();
             break;
 
         case this.animationStatus.INVISIBLE:
@@ -170,9 +168,9 @@ MyTorpedo.prototype.update = function(deltaTime) {
 };
 
 
-MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
+MyTorpedo.prototype.updateStatus = function() {
     
-    switch (currentStatus) {
+    switch (this.animationCurrentStatus) {
        
         case this.animationStatus.PREPARING:
             if (this.init_pos[1] - this.PREPARING_LENGTH >= this.position[1])
@@ -180,7 +178,7 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
             break;
             
         case (this.animationStatus.MOVEMENT):
-            this.setOrientation(old_position);
+            this.setOrientation();
             if (this.t >= 1)
                 this.animationCurrentStatus = this.animationStatus.EXPLOSION;
             break;
@@ -195,11 +193,9 @@ MyTorpedo.prototype.updateStatus = function(currentStatus, old_position) {
 };
 
 
-MyTorpedo.prototype.setOrientation = function(old_position) { 
+MyTorpedo.prototype.setOrientation = function() { 
     
-    this.orientation = [this.position[0] - old_position[0],
-                      this.position[1] - old_position[1],
-                      this.position[2] - old_position[2]]
+    this.orientation = this.bezier.calcDerivative(this.t);
 
     //Working with Spherical Coordinates
     var ro = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2));
