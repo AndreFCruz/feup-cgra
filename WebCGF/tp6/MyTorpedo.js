@@ -54,16 +54,17 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
         PREPARING: 0,
         MOVEMENT:  1,
         EXPLOSION: 2,
-        INVISIBLE: -1,
+        INVISIBLE: 3,
+        DESTROYED: -1,
     }
     this.animationCurrentStatus = this.animationStatus.PREPARING;
+    this.visible = true;
 
     this.PREPARING_LENGTH = 0.8;
-    this.EXPLOSION_MAX_RADIUS = 1.8;
-    this.EXPLOSION_VELOCITY = 3.5;
+    this.EXPLOSION_MAX_RADIUS = 1;
+    this.EXPLOSION_VELOCITY = 3;
 
-    //Radius of the current explosion
-    this.explosionRadius = 0;
+    //Current explosion
     this.explosion = null;
 
     //Torpedo's Update
@@ -91,7 +92,14 @@ MyTorpedo.prototype.constructor = MyTorpedo;
 
 MyTorpedo.prototype.display = function() {
     
-    this.torpedoAppearance.apply();    
+    //Explosion
+    if (this.explosion != null)
+        this.explosion.display();
+
+    if (!this.visible)
+        return;
+
+    this.torpedoAppearance.apply();
 
     this.scene.pushMatrix();
 
@@ -137,10 +145,6 @@ MyTorpedo.prototype.display = function() {
         this.scene.popMatrix();
 
     this.scene.popMatrix();
-
-    //Explosion
-    if (this.explosion != null)
-        this.explosion.display();
 };
 
 MyTorpedo.prototype.update = function(deltaTime) {
@@ -161,12 +165,17 @@ MyTorpedo.prototype.update = function(deltaTime) {
 
         case this.animationStatus.EXPLOSION:
             if (this.explosion == null)
-                this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY);
+                this.explosion = new MyExplosion(this.scene, this.position, this.EXPLOSION_VELOCITY, this.EXPLOSION_MAX_RADIUS);
+            this.explosion.update(deltaTime);
+            this.updateStatus();
+            break;
+        
+        case this.animationStatus.INVISIBLE:
             this.explosion.update(deltaTime);
             this.updateStatus();
             break;
 
-        case this.animationStatus.INVISIBLE:
+        case this.animationStatus.DESTROYED:
             this.explosion = null;
     }
 };
@@ -187,10 +196,16 @@ MyTorpedo.prototype.updateStatus = function() {
                 this.animationCurrentStatus = this.animationStatus.EXPLOSION;
             break;
 
-        case (this.animationStatus.EXPLOSION):
-            if (this.explosion.getRadius() >= this.EXPLOSION_MAX_RADIUS) {
-                this.animationCurrentStatus = this.animationStatus.INVISIBLE;               
+        case(this.animationStatus.EXPLOSION):
+            if (this.explosion.isBig()) {
+                this.visible = false;
                 this.target.setDestroyed();
+                this.animationCurrentStatus = this.animationStatus.INVISIBLE;
+            }
+
+        case (this.animationStatus.INVISIBLE):
+            if (this.explosion.isOver()) {
+                this.animationCurrentStatus = this.animationStatus.DESTROYED;               
             }
             break;
     }
@@ -215,7 +230,7 @@ MyTorpedo.prototype.setOrientation = function() {
 
 MyTorpedo.prototype.wasDestroyed = function() {
     
-    if (this.animationCurrentStatus == this.animationStatus.INVISIBLE && this.target) {
+    if (this.animationCurrentStatus == this.animationStatus.DESTROYED) {
         return true;
     }
     else
