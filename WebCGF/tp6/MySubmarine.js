@@ -115,8 +115,8 @@ MySubmarine.prototype.update = function(currTime) {
 
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
-    this.pos_y += 0.001 * deltaTime * this.vertical_vel * (1/2) * 
-                ((this.velocity / this.MAX_VEL) + Math.abs(this.theta_ang / this.MAX_THETA_ANG));
+    this.pos_y += 0.001 * deltaTime * this.vertical_vel * ((3/4) * (this.velocity / this.MAX_VEL) 
+                + (1/4) * Math.abs(this.theta_ang / this.MAX_THETA_ANG));
 
     if (this.velocity != 0)
         this.ang += 0.001 * deltaTime * this.ang_vel * (1 + (this.velocity / this.MAX_VEL));

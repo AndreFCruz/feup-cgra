@@ -244,7 +244,7 @@ MyTorpedo.prototype.setOrientation = function() {
     this.phi_ang = Math.acos(this.orientation[2] / projection);
     */
 
-    this.theta_ang = Math.atan(this.orientation[1] / ro) + (this.orientation[2] > 0 ? Math.PI / 2);
+    this.theta_ang = Math.atan(this.orientation[1] / (this.orientation[2] < 0 ? ro : -ro));
     this.phi_ang = Math.atan(this.orientation[0]/this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);
 
 };
