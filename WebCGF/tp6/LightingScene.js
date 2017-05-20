@@ -93,7 +93,10 @@ LightingScene.prototype.init = function(application) {
     //List of Targets for Torpedos
     this.targets = [
        new MyTarget(this, 10, 1, -6),
-       new MyTarget(this, -3, 1, 9)
+       new MyTarget(this, -3, 1, 9),
+       new MyTarget(this, 25, 1, 8),
+       new MyTarget(this, -15, 1, 2),
+       new MyTarget(this, -12, 1, -12),
     ];
     this.currentTarget = 0;
     

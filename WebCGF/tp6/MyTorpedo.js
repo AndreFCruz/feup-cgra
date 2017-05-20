@@ -48,6 +48,7 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.TRAPEZE_LENGTH = 0.5;
     this.TRAPEZE_HEIGHT = 0.03;
     this.TRAPEZE_THICKNESS = 0.08;
+    this.TORPEDO_LENGTH = 1;
 
     //Torpedo's Animation
     this.animationStatus = {
@@ -76,9 +77,10 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.P2_DELTA = 6;
     var p1 = [this.position[0], this.position[1] - this.PREPARING_LENGTH, this.position[2]];
     var p2 = [this.position[0] + this.P2_DELTA * Math.sin(this.phi_ang), this.position[1] - this.PREPARING_LENGTH, this.position[2] + this.P2_DELTA * Math.cos(this.phi_ang)];
-    var p3 = [this.target.position[0], this.target.position[1] + 3, this.target.position[2]];
-    
-    this.bezier = new MyBezier(p1, p2, p3, this.target.position);
+    var p3 = [this.target.position[0], this.target.position[1] + 3 + this.TORPEDO_LENGTH / 4, this.target.position[2]];
+    var p4 = [this.target.position[0], this.target.position[1] + this.TORPEDO_LENGTH / 4, this.target.position[2]];
+
+    this.bezier = new MyBezier(p1, p2, p3, p4);
 
     this.start_time = null;
     this.end_time = null;
