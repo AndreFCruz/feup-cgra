@@ -216,6 +216,7 @@ LightingScene.prototype.display = function() {
     //this.explosion.display();
     
     // ---- END Primitive drawing section
+
 }
 ;
 

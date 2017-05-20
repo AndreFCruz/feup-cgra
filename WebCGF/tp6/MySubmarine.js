@@ -15,7 +15,7 @@ function MySubmarine(scene) {
 
     this.pos_x = 0;
     this.pos_z = 0;
-    this.pos_y = 0.5; // Altitude
+    this.pos_y = 1; // Altitude
 
     this.vertical_vel = 0;
     this.VERT_ACCEL = 0.2;
