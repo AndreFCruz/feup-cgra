@@ -54,74 +54,38 @@ MyExplosion.prototype.display = function() {
         //Main Explosion Body
         this.scene.pushMatrix();
             this.scene.scale(this.MAIN_SIZE, this.MAIN_SIZE, this.MAIN_SIZE);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay();
         this.scene.popMatrix();
 
         //Side Bodies
         this.scene.pushMatrix();
             this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
             this.scene.translate(this.MEDIUM_SIZE *  3 / 4, this.MEDIUM_SIZE * 3 / 4, 0);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay(); 
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
             this.scene.translate(-this.MEDIUM_SIZE / 3, -this.MAIN_SIZE/2, -this.MAIN_SIZE / 2);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
             this.scene.translate(0, -this.MAIN_SIZE * 3 / 4, 0);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
             this.scene.translate(0, this.MAIN_SIZE / 3, this.MAIN_SIZE * 3 / 4);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.scale(this.MEDIUM_SIZE, this.MEDIUM_SIZE, this.MEDIUM_SIZE);
             this.scene.translate(-this.MAIN_SIZE / 2, this.MAIN_SIZE / 3, -this.MAIN_SIZE/ 4);
-
-            this.scene.pushMatrix();
-                this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
-                this.hemisphere.display();
-            this.scene.popMatrix();  
-
-            this.hemisphere.display(); 
+            this.sphereDisplay();
         this.scene.popMatrix();
 
     this.scene.popMatrix();
@@ -134,3 +98,15 @@ MyExplosion.prototype.update = function(deltaTime) {
 MyExplosion.prototype.getRadius = function() {
     return this.explosionRadius;
 };
+
+MyExplosion.prototype.sphereDisplay = function () {
+    this.scene.pushMatrix();
+        this.scene.rotate(180 * this.scene.deg2rad, 1, 0, 0);
+        this.hemisphere.display();
+    this.scene.popMatrix();  
+
+    this.scene.pushMatrix();
+        this.scene.rotate(180 * this.scene.deg2rad, 0, 0, 1);
+        this.hemisphere.display();
+    this.scene.popMatrix(); 
+}

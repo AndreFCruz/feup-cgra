@@ -80,7 +80,9 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.bezier = new MyBezier(p1, p2, p3, this.target.position);
 
     //Torpedo Materials
-    //TODO
+    this.torpedoAppearance = new CGFappearance(this.scene);;
+    this.torpedoAppearance.setShininess(30);
+    this.torpedoAppearance.loadTexture("../resources/images/torpedo.png");
 }
 ;
 
@@ -89,6 +91,8 @@ MyTorpedo.prototype.constructor = MyTorpedo;
 
 MyTorpedo.prototype.display = function() {
     
+    this.torpedoAppearance.apply();    
+
     this.scene.pushMatrix();
 
         this.scene.translate(this.position[0], this.position[1], this.position[2]);

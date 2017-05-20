@@ -31,7 +31,7 @@ MySemiSphere.prototype.initBuffers = function() {
                 Math.cos(i * deltaFi)];
 
             this.texCoords.push (Math.cos(deltaTheta * j) * Math.sin(i * deltaFi) / 2 + 0.5,
-                Math.sin(deltaTheta * j) * Math.sin(i * deltaFi) / 2 + 0.5);
+                -Math.sin(deltaTheta * j) * Math.sin(i * deltaFi) / 2 + 0.5);
             
             this.vertices = this.vertices.concat(new_vertex);
         }

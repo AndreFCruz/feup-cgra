@@ -17,7 +17,7 @@ LightingScene.prototype.init = function(application) {
     this.light_04 = true;
     this.pauseClock = false;
     this.acceleration = 1;
-    this.submarineSkin = 'metallic';
+    this.submarineSkin = 'Metallic';
     
     this.deg2rad = Math.PI / 180;
     
@@ -59,21 +59,26 @@ LightingScene.prototype.init = function(application) {
 
     //Skin01 - Metallic
     this.submarineAppearances.push(new CGFappearance(this));
-    this.submarineAppearances[0].loadTexture("../resources/images/skins/skin01.png");
+    this.submarineAppearances[0].loadTexture("../resources/images/skins/skin1.png");
 
-    //Skin02 - Dangerous
+    //Skin02 - Camouflage
     this.submarineAppearances.push(new CGFappearance(this));
-    this.submarineAppearances[1].loadTexture("../resources/images/skins/skin02.png");
+    this.submarineAppearances[1].loadTexture("../resources/images/skins/skin2.png");
 
-    //Skin03 - Abstract
+    //Skin03 - Ricky & Morty
     this.submarineAppearances.push(new CGFappearance(this));
-    this.submarineAppearances[2].loadTexture("../resources/images/skins/skin03.png");
+    this.submarineAppearances[2].loadTexture("../resources/images/skins/skin3.png");
+
+    //Skin03 - FEUP
+    this.submarineAppearances.push(new CGFappearance(this));
+    this.submarineAppearances[3].loadTexture("../resources/images/skins/skin4.png");
 
     //Submarine's Appearances Dictionary
     this.submarineAppearanceList = {
-      'metallic'    : 0,
-      'dangerous'   : 1,
-      'abstract'    : 2  
+      'Metallic'        : 0,
+      'Camouflage'      : 1,
+      'Ricky & Morty'   : 2,
+      'FEUP'            : 3,  
     };
 
     //Current Submarine Appearance, update in animation function

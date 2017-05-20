@@ -31,7 +31,7 @@ function MyTarget(scene, positionX, positionY, positionZ) {
     this.targetAppearance.setAmbient(0.8, 0.8, 0.8, 1);
     this.targetAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
     this.targetAppearance.setSpecular(0.4, 0.4, 0.4, 1);
-    this.targetAppearance.setShininess(50);
+    this.targetAppearance.setShininess(30);
     this.targetAppearance.loadTexture("../resources/images/target.png");
 }
 ;

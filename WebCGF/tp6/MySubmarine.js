@@ -163,7 +163,8 @@ MySubmarine.prototype.display = function() {
         this.scene.pushMatrix();
             this.scene.translate(0, 0, 2.50);
             this.scene.scale(0.27 , 1.07, 0.44);
-            this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+            this.scene.translate(0, 1, 0);
+            this.scene.rotate(90 * this.deg2rad, 1, 0, 0);
             this.cylinder.display();
         this.scene.popMatrix();
 
@@ -182,7 +183,8 @@ MySubmarine.prototype.display = function() {
             this.scene.pushMatrix();
                 this.scene.translate(0, 0, 2.65);
                 this.scene.scale(0.10 , 1.65, 0.10);
-                this.scene.rotate(-90 * this.deg2rad, 1, 0, 0);
+                this.scene.translate(0, 1, 0);
+                this.scene.rotate(90 * this.deg2rad, 1, 0, 0);
                 this.cylinder.display();
             this.scene.popMatrix();
 
