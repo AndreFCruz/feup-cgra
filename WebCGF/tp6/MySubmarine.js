@@ -21,6 +21,11 @@ function MySubmarine(scene) {
     this.VERT_ACCEL = 0.2;
     this.MAX_VERT_VEL = 2;
 
+    // Orientation Angles
+    this.theta_ang = 0;
+    this.MAX_THETA_ANG = Math.PI / 24;
+    this.THETA_ANG_VEL = Math.PI / 24;
+
     this.ang = 98;
     this.ang_vel = 0;
     this.ang_accel = 20;
@@ -110,9 +115,11 @@ MySubmarine.prototype.update = function(currTime) {
 
     this.pos_x += 0.001 * deltaTime * this.velocity * Math.sin(this.ang * this.deg2rad);
     this.pos_z += 0.001 * deltaTime * this.velocity * Math.cos(this.ang * this.deg2rad);
-    this.pos_y += 0.001 * deltaTime * this.vertical_vel;
+    this.pos_y += 0.001 * deltaTime * this.vertical_vel * (1/2) * 
+                ((this.velocity / this.MAX_VEL) + Math.abs(this.theta_ang / this.MAX_THETA_ANG));
 
-    this.ang += 0.001 * deltaTime * this.ang_vel /* * (10 * this.velocity / this.MAX_VEL) */;
+    if (this.velocity != 0)
+        this.ang += 0.001 * deltaTime * this.ang_vel * (1 + (this.velocity / this.MAX_VEL));
 
     // Simulate friction -- Dampen velocities
     if (this.dampening_ang_vel)
@@ -120,15 +127,41 @@ MySubmarine.prototype.update = function(currTime) {
     if (this.dampening_vel)
         this.velocity -= (this.velocity * this.dampen_constant * 0.1 * 0.001 * deltaTime);
 
-    // Vertical friction
-    if (! this.upwards && !this.downwards)
+    // Vertical friction and update inclination
+    if (! this.upwards && !this.downwards) {
         this.vertical_vel -= this.vertical_vel * this.dampen_constant * 0.1 * 0.001 * deltaTime;
+        this.updateThetaAng(deltaTime, 0);
+    } else {
+        this.updateThetaAng(deltaTime, this.upwards ? -1 : 1);
+    }
 
     // Update pivot's position
     this.pivot = [1.5 * Math.sin(this.ang * this.deg2rad), 1.5 * Math.cos(this.ang * this.deg2rad)];
 
-    //Updating Subsmarin'es torpedo if there's one
+    // Updating Submarine's torpedos if there are any
     this.updateTorpedos(deltaTime);
+}
+
+MySubmarine.prototype.updateThetaAng = function(deltaTime, rotation) {
+
+    switch (rotation) {
+        case 1:
+        case -1:
+            this.theta_ang += this.THETA_ANG_VEL * rotation * deltaTime * 0.001;
+            break;
+        case 0:
+            this.theta_ang -= this.theta_ang * this.THETA_ANG_VEL * 10 * deltaTime * 0.001;
+            break;
+        default:
+            console.log("Invalid rotation value in Submarine");
+            break;
+    }
+    
+
+    if (this.theta_ang > this.MAX_THETA_ANG)
+        this.theta_ang = this.MAX_THETA_ANG;
+    else if (this.theta_ang < -this.MAX_THETA_ANG)
+        this.theta_ang = -this.MAX_THETA_ANG;
 }
 
 MySubmarine.prototype.display = function() {
@@ -138,6 +171,7 @@ MySubmarine.prototype.display = function() {
 
         this.scene.translate(this.pos_x, 0, this.pos_z);
         this.scene.rotate(this.ang * this.deg2rad, 0, 1, 0);
+        this.scene.rotate(this.theta_ang, 1, 0, 0);
 
         //Main Body
         this.scene.pushMatrix();

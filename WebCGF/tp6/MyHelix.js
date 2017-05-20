@@ -44,7 +44,7 @@ MyHelix.prototype.display = function() {
 
 MyHelix.prototype.update = function(deltaTime, subVel) {
 	// angular velocity in radians per second
-	var ang_vel = (subVel >= 0 ? 1 : -1) * 2 * Math.PI + subVel;
+	var ang_vel = (subVel >= 0 ? 1 : -1) * 2 * Math.PI + subVel * 5;
 
 	this.ang += (this.positive ? 1 : -1) * deltaTime * ang_vel * 0.001;
 

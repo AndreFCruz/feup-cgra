@@ -71,7 +71,7 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     //Torpedo's Update
     this.t = 0; //Parameter for Bezier function
     this.velocity = 1;
-    this.delta_t = 1 / 5; // 5 seconds to complete
+    this.delta_t = this.velocity / 5; // 5 seconds per world unit
 
     //Modulation the Bezier Curve
     this.P2_DELTA = 6;
@@ -224,14 +224,16 @@ MyTorpedo.prototype.updateStatus = function() {
 
 MyTorpedo.prototype.setOrientation = function() { 
     
-    //this.orientation = this.bezier.calcDerivative(this.t);
+    this.orientation = this.bezier.calcDerivative(this.t);
     
+    /*
     var old_pos = this.bezier.calcPosition(this.t - .005);
     this.orientation = [
         this.position[0] - old_pos[0],
         this.position[1] - old_pos[1],
         this.position[2] - old_pos[2]
     ];
+    */
     
 
     //Working with Spherical Coordinates
@@ -242,13 +244,9 @@ MyTorpedo.prototype.setOrientation = function() {
     this.phi_ang = Math.acos(this.orientation[2] / projection);
     */
 
-    this.theta_ang = Math.atan(this.orientation[1] / ro);
+    this.theta_ang = Math.atan(this.orientation[1] / ro) + (this.orientation[2] > 0 ? Math.PI / 2);
     this.phi_ang = Math.atan(this.orientation[0]/this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);
 
-/*
-    this.theta_ang = Math.acos(this.orientation[2] / ro);
-    this.phi_ang = Math.atan(this.orientation[1] / this.orientation[0]) - Math.PI / 2;
-*/
 };
 
 MyTorpedo.prototype.wasDestroyed = function() {
