@@ -69,7 +69,7 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     //Torpedo's Update
     this.t = 0; //Parameter for Bezier function
     this.velocity = 1;
-    this.delta_t = this.targetDistance / this.velocity;
+    this.delta_t = 1 / 5; // 5 seconds to complete
 
     //Modulation the Bezier Curve
     this.P2_DELTA = 6;
@@ -78,6 +78,9 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     var p3 = [this.target.position[0], this.target.position[1] + 3, this.target.position[2]];
     
     this.bezier = new MyBezier(p1, p2, p3, this.target.position);
+
+    this.start_time = null;
+    this.end_time = null;
 
     //Torpedo Materials
     this.torpedoAppearance = new CGFappearance(this.scene);;
@@ -151,11 +154,10 @@ MyTorpedo.prototype.update = function(deltaTime) {
         case this.animationStatus.PREPARING:
             this.position[1] -= (deltaTime * 0.001) * this.velocity;
             this.updateStatus();
-            console.log("preparing torpedo");
             break;
 
         case this.animationStatus.MOVEMENT:
-            this.t = this.t + (deltaTime * 0.001) / this.delta_t;
+            this.t += (deltaTime * 0.001) * this.delta_t;
             this.position = this.bezier.calcPosition(this.t);
             this.updateStatus();
             break;
@@ -178,14 +180,19 @@ MyTorpedo.prototype.updateStatus = function() {
     switch (this.animationCurrentStatus) {
        
         case this.animationStatus.PREPARING:
-            if (this.init_pos[1] - this.PREPARING_LENGTH >= this.position[1])
+            if (this.init_pos[1] - this.PREPARING_LENGTH >= this.position[1]) {
                 this.animationCurrentStatus = this.animationStatus.MOVEMENT;
+                this.start_time = Date.now();
+            }
             break;
             
         case (this.animationStatus.MOVEMENT):
             this.setOrientation();
-            if (this.t >= 1)
+            if (this.t >= 1) {
                 this.animationCurrentStatus = this.animationStatus.EXPLOSION;
+                this.end_time = Date.now();
+                console.log(this.end_time - this.start_time);
+            }
             break;
 
         case (this.animationStatus.EXPLOSION):
