@@ -207,14 +207,26 @@ MyTorpedo.prototype.updateStatus = function() {
 
 MyTorpedo.prototype.setOrientation = function() { 
     
-    this.orientation = this.bezier.calcDerivative(this.t);
+    //this.orientation = this.bezier.calcDerivative(this.t);
+    
+    var old_pos = this.bezier.calcPosition(this.t - .005);
+    this.orientation = [
+        this.position[0] - old_pos[0],
+        this.position[1] - old_pos[1],
+        this.position[2] - old_pos[2]
+    ];
+    
 
     //Working with Spherical Coordinates
     var ro = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2));
     var projection = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2));
-    
+    /*
     this.theta_ang = Math.asin(this.orientation[1] / ro);
     this.phi_ang = Math.acos(this.orientation[2] / projection);
+    */
+
+    this.theta_ang = Math.atan(this.orientation[1] / ro);
+    this.phi_ang = Math.atan(this.orientation[0]/this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);
 
 /*
     this.theta_ang = Math.acos(this.orientation[2] / ro);

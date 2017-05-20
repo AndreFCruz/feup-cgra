@@ -10,7 +10,7 @@ function MySubmarine(scene) {
 
     this.deg2rad = Math.PI / 180;
 
-    this.MAX_VEL = 20; // max Vel in world units per second
+    this.MAX_VEL = 15; // max Vel in world units per second
     this.velocity = 0;
 
     this.pos_x = 0;
