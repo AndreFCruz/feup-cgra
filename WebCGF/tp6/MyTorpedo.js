@@ -92,7 +92,8 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
 
     // Sounds
     this.sound = new Howl({
-        src: ['../resources/sounds/torpedo_launch.mp3'] 
+        src: ['../resources/sounds/torpedo_launch.mp3'],
+        volume: 0.3
     });
 
     this.sound.play();

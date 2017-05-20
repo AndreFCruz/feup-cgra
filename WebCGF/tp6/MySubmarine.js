@@ -382,8 +382,10 @@ MySubmarine.prototype.lowerPeriscope = function() {
 MySubmarine.prototype.fireTorpedo = function(target) {
     
     //If no targets alive no torpedo is created
-    if (this.scene.currentTarget == this.scene.targets.length)
+    if (this.scene.currentTarget >= this.scene.targets.length) {
+        console.log("No targets left!");
         return;
+    }
     
     //Current submarine position as an array
     var sub_pos = [this.pos_x, this.pos_y, this.pos_z];
