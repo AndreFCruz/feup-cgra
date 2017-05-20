@@ -89,6 +89,13 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.torpedoAppearance = new CGFappearance(this.scene);;
     this.torpedoAppearance.setShininess(30);
     this.torpedoAppearance.loadTexture("../resources/images/torpedo.png");
+
+    // Sounds
+    this.sound = new Howl({
+        src: ['../resources/sounds/torpedo_launch.mp3'] 
+    });
+
+    this.sound.play();
 }
 ;
 

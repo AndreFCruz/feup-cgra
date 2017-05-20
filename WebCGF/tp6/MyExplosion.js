@@ -47,6 +47,13 @@ function MyExplosion(scene, pos, velocity, maxRadius) {
     this.explosionAppearance.setSpecular(0.4, 0.4, 0.4, 1);
     this.explosionAppearance.setShininess(70);
     this.explosionAppearance.loadTexture("../resources/images/explosion.png");
+
+    // Sounds
+    this.sound = new Howl({
+        src: ['../resources/sounds/explosion.m4a'] 
+    });
+
+    this.sound.play();
 };
 
 MyExplosion.prototype = Object.create(CGFobject.prototype);
