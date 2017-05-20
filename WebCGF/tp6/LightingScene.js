@@ -220,6 +220,7 @@ LightingScene.prototype.display = function() {
     this.popMatrix();
     
     // ---- END Primitive drawing section
+
 }
 ;
 
