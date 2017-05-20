@@ -41,7 +41,6 @@ LightingScene.prototype.init = function(application) {
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
     var pos = [0,0,0,];
-    this.explosion = new MyExplosion(this, pos, 1);
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -53,6 +52,13 @@ LightingScene.prototype.init = function(application) {
     this.waterAppearance.setShininess(40)
     this.waterAppearance.setTextureWrap('MIRRORED_REPEAT', 'MIRRORED_REPEAT');
     this.waterAppearance.loadTexture("../resources/images/oceanFloor.png");
+
+    this.stoneColumnAppearance = new CGFappearance(this);
+    this.stoneColumnAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+    this.stoneColumnAppearance.setDiffuse(0.4, 0.4, 0.4, 1);
+    this.stoneColumnAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+    this.stoneColumnAppearance.setShininess(20);
+    this.stoneColumnAppearance.loadTexture("../resources/images/stone_column.png");
 
     //Submarine Appearances
     this.submarineAppearances = [];
@@ -184,6 +190,7 @@ LightingScene.prototype.display = function() {
         this.translate(8, 0, -0.9);
         this.scale(1, 7, 1);
         this.rotate(-90 * this.deg2rad, 1, 0, 0);
+        this.stoneColumnAppearance.apply();
         this.clockPost.display();
     this.popMatrix();
 
@@ -211,9 +218,6 @@ LightingScene.prototype.display = function() {
         for (var i = 0; i < this.targets.length; ++i)
             this.targets[i].display();
     this.popMatrix();
-    
-
-    //this.explosion.display();
     
     // ---- END Primitive drawing section
 
