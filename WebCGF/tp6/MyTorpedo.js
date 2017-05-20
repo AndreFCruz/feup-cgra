@@ -71,7 +71,7 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     //Torpedo's Update
     this.t = 0; //Parameter for Bezier function
     this.velocity = 1;
-    this.delta_t = this.velocity / 5; // 5 seconds per world unit
+    this.delta_t = 2 / this.targetDistance; // (1/2) second per world unit
 
     //Modulation the Bezier Curve
     this.P2_DELTA = 6;
@@ -202,6 +202,7 @@ MyTorpedo.prototype.updateStatus = function() {
             if (this.t >= 1) {
                 this.animationCurrentStatus = this.animationStatus.EXPLOSION;
                 this.end_time = Date.now();
+                console.log("Distance: " + this.targetDistance);
                 console.log(this.end_time - this.start_time);
             }
             break;
@@ -225,26 +226,12 @@ MyTorpedo.prototype.updateStatus = function() {
 MyTorpedo.prototype.setOrientation = function() { 
     
     this.orientation = this.bezier.calcDerivative(this.t);
-    
-    /*
-    var old_pos = this.bezier.calcPosition(this.t - .005);
-    this.orientation = [
-        this.position[0] - old_pos[0],
-        this.position[1] - old_pos[1],
-        this.position[2] - old_pos[2]
-    ];
-    */
-    
 
-    //Working with Spherical Coordinates
+    // Convert Cartesian coordinates to Spherical Coordinates
     var ro = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2));
     var projection = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2));
-    /*
-    this.theta_ang = Math.asin(this.orientation[1] / ro);
-    this.phi_ang = Math.acos(this.orientation[2] / projection);
-    */
 
-    this.theta_ang = Math.atan(this.orientation[1] / (this.orientation[2] < 0 ? ro : -ro));
+    this.theta_ang = Math.atan(this.orientation[1] / (this.orientation[2] < 0 ? projection : -projection));
     this.phi_ang = Math.atan(this.orientation[0]/this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);
 
 };
