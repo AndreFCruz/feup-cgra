@@ -27,7 +27,8 @@ LightingScene.prototype.init = function(application) {
 
     this.initLights();
 
-    this.gl.clearColor(0.153, 0.313, 0.525, 1.0);
+    //this.gl.clearColor(0.153, 0.313, 0.525, 1.0);
+    this.gl.clearColor(0.253, 0.543, 0.725, 1.0);
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
@@ -40,7 +41,7 @@ LightingScene.prototype.init = function(application) {
     this.oceanFloor = new Plane(this, 100, 1, 0, 5, 0, 5);
     this.clockPost = new MyCylinder(this, 10, 1);
     this.submarine = new MySubmarine(this);
-    var pos = [0,0,0,];
+    var pos = [0,0,0];
 
     // Materials
     this.materialDefault = new CGFappearance(this);
@@ -123,19 +124,19 @@ LightingScene.prototype.initCameras = function() {
     this.lights[3].setVisible(true);
 
     // SETUP
-    this.lights[0].setAmbient(0.7, 0.7, 0.4, 1);
+    this.lights[0].setAmbient(0.4, 0.7, 0.7, 1);
     this.lights[0].setDiffuse(0.8, 0.8, 0.8, 1.0);
-    this.lights[0].setSpecular(0.6, 0.6, 0.3, 1.0);
+    this.lights[0].setSpecular(0.3, 0.6, 0.6, 1.0);
     this.lights[0].setLinearAttenuation(0.01);
 
-    this.lights[1].setAmbient(0.9, 0.7, 0.3, 1);
-    this.lights[1].setDiffuse(0.8, 0.6, 0.6, 1.0);
-    this.lights[1].setSpecular(0.4, 0.4, 0, 1.0);
+    this.lights[1].setAmbient(0.2, 0.6, 0.8, 1);
+    this.lights[1].setDiffuse(0.4, 0.6, 0.7, 1.0);
+    this.lights[1].setSpecular(01, 0.6, 0.5, 1.0);
     this.lights[1].setLinearAttenuation(0.01);
 
-    this.lights[2].setAmbient(0.7, 0.7, 0.7, 1);
+    this.lights[2].setAmbient(0, 0.7, 0.7, 1);
     this.lights[2].setDiffuse(0.5, 0.5, 0.5, 1.0);
-    this.lights[2].setSpecular(0.5, 0.3, 0, 1.0);
+    this.lights[2].setSpecular(0, 0.8, 0.8, 1.0);
     this.lights[2].setLinearAttenuation(0.01);
 
     this.lights[3].setAmbient(0.6, 0.6, 0.6, 1);
@@ -146,8 +147,8 @@ LightingScene.prototype.initCameras = function() {
 ;
 
 LightingScene.prototype.initLights = function() {
-    this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
-    //this.setGlobalAmbientLight(1, 1, 1, 1.0);
+    this.setGlobalAmbientLight(0.3, 0.3, 0.5);
+    //this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
     
 }
 ;
