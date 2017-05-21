@@ -118,6 +118,7 @@ MyTorpedo.prototype.display = function() {
         
         this.scene.rotate(this.theta_ang, 1, 0, 0);
         this.scene.rotate(this.phi_ang, 0, 1, 0);
+        
 
         //Main Body
         this.scene.pushMatrix();
@@ -234,12 +235,13 @@ MyTorpedo.prototype.setOrientation = function() {
     this.orientation = this.bezier.calcDerivative(this.t);
 
     // Convert Cartesian coordinates to Spherical Coordinates
-    var ro = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2));
-    var projection = Math.sqrt(Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2));
+    var r = Math.sqrt( Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[1], 2) + Math.pow(this.orientation[2], 2) );
 
-    this.theta_ang = Math.atan(this.orientation[1] / (this.orientation[2] < 0 ? projection : -projection));
-    this.phi_ang = Math.atan(this.orientation[0]/this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);
+    var proj_xz = Math.sqrt( Math.pow(this.orientation[0], 2) + Math.pow(this.orientation[2], 2) );
 
+    this.theta_ang = Math.atan(this.orientation[1] / (this.orientation[2] < 0 ? proj_xz : -proj_xz));
+    this.phi_ang = Math.atan(this.orientation[0] / this.orientation[2]) + (this.orientation[2] < 0 ? Math.PI : 0);;
+    
 };
 
 MyTorpedo.prototype.wasDestroyed = function() {
