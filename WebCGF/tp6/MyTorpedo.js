@@ -91,12 +91,10 @@ function MyTorpedo(scene, sub_pos, sub_ang, target) {
     this.torpedoAppearance.loadTexture("../resources/images/torpedo.png");
 
     // Sounds
-    this.sound = new Howl({
-        src: ['../resources/sounds/torpedo_launch.mp3'],
-        volume: 0.3
-    });
-
-    this.sound.play();
+    var sound = new Audio('../resources/sounds/torpedo_launch.mp3');
+    sound.volume = 0.3;
+    sound.play();
+    
 }
 ;
 

@@ -66,6 +66,15 @@ function MySubmarine(scene) {
 
     // Materials
     this.materialDefault = new CGFappearance(this);
+
+    // Sounds
+    this.myAudio = new Audio('../resources/sounds/submarine_ping.mp3'); 
+    this.myAudio.volume = 0.4;
+    this.myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    this.myAudio.play();
 }
 ;
 MySubmarine.prototype = Object.create(CGFobject.prototype);
