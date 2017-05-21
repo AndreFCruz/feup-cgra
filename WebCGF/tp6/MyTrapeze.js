@@ -16,10 +16,6 @@ function MyTrapeze(scene, side1, side2) {
     
     this.initBuffers();
 
-    this.sideRatio = (this.smallSide / this.bigSide);
-    console.log("SideRatio1: " + ((1 - this.sideRatio) / 2) + "\n");
-    console.log("SideRatio2: " +  (1 - ((1 - this.sideRatio) / 2)) + "\n");
-
     this.ang = 0;
     this.MAX_ANG = Math.PI / 4;
     this.MIN_ANG = Math.PI / -4;
@@ -69,17 +65,19 @@ MyTrapeze.prototype.initBuffers = function() {
         (this.smallSide / 2), 0.25, 0,
     ];
 
+    var sideRatio = this.smallSide / this.bigSide;
+
     this.texCoords = [
     //Base Trapeze
         0, 1,
         1, 1,
-        0, 0, // change
-        1, 0, // change
+        (1 - sideRatio) / 2, 0,
+        1 - ((1 - sideRatio) / 2), 0,
     //Top Trapeze
         0, 1,
         1, 1,
-        0, 0, // change
-        1, 0, // change
+        (1 - sideRatio) / 2, 0,
+        1 - ((1 - sideRatio) / 2), 0,
     //Left Side Rectangle
         1, 1,
         0, 1,
@@ -123,6 +121,8 @@ MyTrapeze.prototype.initBuffers = function() {
         21, 22, 23,
     ];
     
+    var ang = Math.atan(1 / (this.bigSide - this.smallSide / 2));
+
     this.normals = [
     //Base Trapeze Normals
         0, -1, 0,
@@ -135,15 +135,15 @@ MyTrapeze.prototype.initBuffers = function() {
         0, 1, 0,
         0, 1, 0,
     //Left Side Rectangle Normals
-        -1, 0, 0, //change -> TODO: Need to find the right angle
-        -1, 0, 0,
-        -1, 0, 0,
-        -1, 0, 0,
+        -Math.cos(ang), Math.sin(ang), 0,
+        -Math.cos(ang), Math.sin(ang), 0,
+        -Math.cos(ang), Math.sin(ang), 0,
+        -Math.cos(ang), Math.sin(ang), 0,
     //Right Side Rectangle Normals
-        1, 0, 0, //change -> TODO: Need to find the right angle      
-        1, 0, 0,         
-        1, 0, 0,        
-        1, 0, 0,
+        Math.cos(ang), Math.sin(ang), 0,
+        Math.cos(ang), Math.sin(ang), 0,         
+        Math.cos(ang), Math.sin(ang), 0,        
+        Math.cos(ang), Math.sin(ang), 0,
     //Front Side Rectangle Normals
         0, 0, 1,
         0, 0, 1,
@@ -184,7 +184,6 @@ MyTrapeze.prototype.update = function(deltaTime, rotation) {
             break;
     }
     
-
     if (this.ang > this.MAX_ANG)
         this.ang = this.MAX_ANG;
     else if (this.ang < this.MIN_ANG)
